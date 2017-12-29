@@ -34,10 +34,13 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     var backgroundImageViews: [UIImageView]!
     var visibleBackgroundIndex = 0
     var invisibleBackgroundIndex = 1
+    
     var lastTemperatureTens = 0
     let defaultInitialTemperature = -9999
     var lastTemperature:Int!
+    
     var lastHumidity:Double = -9999
+    
     var circleDrawn = false
     var keepScanning = false
     //var isScanning = false
@@ -166,128 +169,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     }
     
     
-    // MARK: - Updating UI
-    
-    func updateTemperatureDisplay() {
-        if !circleDrawn {
-            drawCircle()
-        } else {
-            circleView.hidden = false
-        }
         
-        updateBackgroundImageForTemperature(lastTemperature)
-        temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeTemp)
-        temperatureLabel.text = " \(lastTemperature)°"
-    }
-
-    func drawCircle() {
-        circleView.hidden = false
-        let circleLayer = CAShapeLayer()
-        circleLayer.path = UIBezierPath(ovalInRect: CGRectMake(0, 0, circleView.frame.width, circleView.frame.height)).CGPath
-        circleView.layer.addSublayer(circleLayer)
-        circleLayer.lineWidth = 2
-        circleLayer.strokeColor = UIColor.whiteColor().CGColor
-        circleLayer.fillColor = UIColor.clearColor().CGColor
-        circleDrawn = true
-    }
-    
-    func tensValue(temperature:Int) -> Int {
-        var temperatureTens = 10;
-        if (temperature > 19) {
-            if (temperature > 99) {
-                temperatureTens = 100;
-            } else {
-                temperatureTens = 10 * Int(floor( Double(temperature / 10) + 0.5 ))
-            }
-        }
-        return temperatureTens
-    }
-    
-    func updateBackgroundImageForTemperature(temperature:Int) {
-        let temperatureTens = tensValue(temperature)
-        if temperatureTens != lastTemperatureTens {
-            // generate file name of new background to show
-            let temperatureFilename = "temp-\(temperatureTens)"
-            print("*** BACKGROUND FILENAME: \(temperatureFilename)")
-            
-            // fade out old background, fade in new.
-            let visibleBackground = backgroundImageViews[visibleBackgroundIndex]
-            let invisibleBackground = backgroundImageViews[invisibleBackgroundIndex]
-            invisibleBackground.image = UIImage(named: temperatureFilename)
-            invisibleBackground.alpha = 0
-            view.bringSubviewToFront(invisibleBackground)
-            view.bringSubviewToFront(controlContainerView)
-            UIView.animateWithDuration(0.5, animations: { 
-                    invisibleBackground.alpha = 1;
-                }, completion: { (finished) in
-                    visibleBackground.alpha = 0
-                    let indexTemp = self.visibleBackgroundIndex
-                    self.visibleBackgroundIndex = self.invisibleBackgroundIndex
-                    self.invisibleBackgroundIndex = indexTemp
-                    print("**** NEW INDICES - visible: \(self.visibleBackgroundIndex) - invisible: \(self.invisibleBackgroundIndex)")
-            })
-        }
-    }
-    
-    func displayTemperature(data:NSData) {
-        // We'll get four bytes of data back, so we divide the byte count by two
-        // because we're creating an array that holds two 16-bit (two-byte) values
-        let dataLength = data.length / sizeof(UInt16)
-        var dataArray = [UInt16](count:dataLength, repeatedValue: 0)
-        data.getBytes(&dataArray, length: dataLength * sizeof(Int16))
-
-//        // output values for debugging/diagnostic purposes
-//        for i in 0 ..< dataLength {
-//            let nextInt:UInt16 = dataArray[i]
-//            print("next int: \(nextInt)")
-//        }
         
-        let rawAmbientTemp:UInt16 = dataArray[Device.SensorDataIndexTempAmbient]
-        let ambientTempC = Double(rawAmbientTemp) / 128.0
-        let ambientTempF = convertCelciusToFahrenheit(ambientTempC)
-        print("*** AMBIENT TEMPERATURE SENSOR (C/F): \(ambientTempC), \(ambientTempF)");
-        
-        // Device also retrieves an infrared temperature sensor value, which we don't use in this demo.
-        // However, for instructional purposes, here's how to get at it to compare to the ambient temperature:
-        let rawInfraredTemp:UInt16 = dataArray[Device.SensorDataIndexTempInfrared]
-        let infraredTempC = Double(rawInfraredTemp) / 128.0
-        let infraredTempF = convertCelciusToFahrenheit(infraredTempC)
-        print("*** INFRARED TEMPERATURE SENSOR (C/F): \(infraredTempC), \(infraredTempF)");
-        
-        let temp = Int(ambientTempF)
-        lastTemperature = temp
-        print("*** LAST TEMPERATURE CAPTURED: \(lastTemperature)° F")
-        
-        if UIApplication.sharedApplication().applicationState == .Active {
-            updateTemperatureDisplay()
-        }
-    }
-
-    func displayHumidity(data:NSData) {
-        let dataLength = data.length / sizeof(UInt16)
-        var dataArray = [UInt16](count:dataLength, repeatedValue: 0)
-        data.getBytes(&dataArray, length: dataLength * sizeof(Int16))
-        
-        for i in 0 ..< dataLength {
-            let nextInt:UInt16 = dataArray[i]
-            print("next int: \(nextInt)")
-        }
-        
-        let rawHumidity:UInt16 = dataArray[Device.SensorDataIndexHumidity]
-        let calculatedHumidity = calculateRelativeHumidity(rawHumidity)
-        print("*** HUMIDITY: \(calculatedHumidity)");
-        humidityLabel.text = String(format: "Humidity: %.01f%%", calculatedHumidity)
-        humidityLabel.hidden = false
-        
-        // Humidity sensor also retrieves a temperature, which we don't use.
-        // However, for instructional purposes, here's how to get at it to compare to the ambient sensor:
-        let rawHumidityTemp:UInt16 = dataArray[Device.SensorDataIndexHumidityTemp]
-        let calculatedTemperatureC = calculateHumidityTemperature(rawHumidityTemp)
-        let calculatedTemperatureF = convertCelciusToFahrenheit(calculatedTemperatureC)
-        print("*** HUMIDITY TEMP C: \(calculatedTemperatureC) F: \(calculatedTemperatureF)")
-        
-    }
-    
     // MARK: - CBCentralManagerDelegate methods
     
     // Invoked when the central manager’s state is updated.
@@ -541,27 +424,5 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     }
 
     
-    // MARK: - TI Sensor Tag Utility Methods
-    
-    func convertCelciusToFahrenheit(celcius:Double) -> Double {
-        let fahrenheit = (celcius * 1.8) + Double(32)
-        return fahrenheit
-    }
-    
-    func calculateRelativeHumidity(rawH:UInt16) -> Double {
-        // clear status bits [1..0]
-        let clearedH = rawH & ~0x003
-        
-        //-- calculate relative humidity [%RH] --
-        // RH= -6 + 125 * SRH/2^16
-        let relativeHumidity:Double = -6.0 + 125.0/65536 * Double(clearedH)
-        return relativeHumidity
-    }
-    
-    func calculateHumidityTemperature(rawT:UInt16) -> Double {
-        //-- calculate temperature [deg C] --
-        let temp = -46.85 + 175.72/65536 * Double(rawT);
-        return temp;
-    }
     
 }
