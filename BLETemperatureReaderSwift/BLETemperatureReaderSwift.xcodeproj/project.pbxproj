@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5FAFE6F31FF6557F009326A6 /* gui.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F21FF6557F009326A6 /* gui.swift */; };
+		5FAFE6F51FF65D75009326A6 /* peripheralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F41FF65D75009326A6 /* peripheralProxy.swift */; };
 		C80679C01CB9B7ED009BCB93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80679BF1CB9B7ED009BCB93 /* AppDelegate.swift */; };
 		C80679C51CB9B7ED009BCB93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C80679C31CB9B7ED009BCB93 /* Main.storyboard */; };
 		C80679C71CB9B7ED009BCB93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C80679C61CB9B7ED009BCB93 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		5FAFE6F21FF6557F009326A6 /* gui.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gui.swift; sourceTree = "<group>"; };
+		5FAFE6F41FF65D75009326A6 /* peripheralProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = peripheralProxy.swift; sourceTree = "<group>"; };
 		C80679BC1CB9B7ED009BCB93 /* BLETemperatureReaderSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLETemperatureReaderSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80679BF1CB9B7ED009BCB93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C80679C41CB9B7ED009BCB93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				C80679C81CB9B7ED009BCB93 /* LaunchScreen.storyboard */,
 				C80679CB1CB9B7ED009BCB93 /* Info.plist */,
 				5FAFE6F21FF6557F009326A6 /* gui.swift */,
+				5FAFE6F41FF65D75009326A6 /* peripheralProxy.swift */,
 			);
 			path = BLETemperatureReaderSwift;
 			sourceTree = "<group>";
@@ -158,6 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FAFE6F51FF65D75009326A6 /* peripheralProxy.swift in Sources */,
 				C80679D61CB9C03A009BCB93 /* Device.swift in Sources */,
 				5FAFE6F31FF6557F009326A6 /* gui.swift in Sources */,
 				C80679C01CB9B7ED009BCB93 /* AppDelegate.swift in Sources */,

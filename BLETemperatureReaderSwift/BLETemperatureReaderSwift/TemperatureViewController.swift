@@ -9,6 +9,8 @@
 import UIKit
 import CoreBluetooth
 
+//import peripheralProxy
+
 // Conform to CBCentralManagerDelegate, CBPeripheralDelegate protocols
 class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
 
@@ -21,10 +23,10 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     @IBOutlet weak var disconnectButton: UIButton!
     
     // define our scanning interval times
-    let timerPauseInterval:NSTimeInterval = 10.0
+    let timerInterval:NSTimeInterval = 20.0
     let timerScanInterval:NSTimeInterval = 2.0
   
-  var timer = NSTimer()
+    var timer = NSTimer()
     
     // UI-related
     let temperatureLabelFontName = "HelveticaNeue-Thin"
@@ -45,17 +47,13 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     var keepScanning = false
     //var isScanning = false
     
+    
     // Core Bluetooth properties
     var centralManager:CBCentralManager!
-    var sensorTag:CBPeripheral?
-    var temperatureCharacteristic:CBCharacteristic?
-    var humidityCharacteristic:CBCharacteristic?
     
-    // This could be simplified to "SensorTag" and check if it's a substring.
-    // (Probably a good idea to do that if you're using a different model of
-    // the SensorTag, or if you don't know what model it is...)
-    let sensorTagName = "CC2650 SensorTag"
-    
+    var peripheralProxy: PeripheralProxy!
+        
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -74,6 +72,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         //      CBCentralManager object to implement the central role, specify this initialization option and provide
         //      a restoration identifier for the central manager when you allocate and initialize it.
         //centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
+        
+        peripheralProxy = PeripheralProxy()
       
         // configure initial UI
         temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
@@ -99,7 +99,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
   
     func startTimer() {
         print("start timer")
-        timer = NSTimer.scheduledTimerWithTimeInterval(10,
+        timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval,
                                                        target: self,
                                                        selector: #selector(pauseScan),
                                                        userInfo: nil,
@@ -109,40 +109,15 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     // MARK: - Handling User Interaction
     
     @IBAction func handleDisconnectButtonTapped(sender: AnyObject) {
-        // if we don't have a sensor tag, start scanning for one...
-        if sensorTag == nil {
-            keepScanning = true
-            resumeScan()
-            return
-        } else {
-            disconnect()
-        }
+        peripheralProxy.disconnect()
+        
+        // Start scanning for peripheral again
+        keepScanning = true
+        resumeScan()
+        return
     }
     
-    func disconnect() {
-        if let sensorTag = self.sensorTag {
-            if let tc = self.temperatureCharacteristic {
-                sensorTag.setNotifyValue(false, forCharacteristic: tc)
-            }
-            if let hc = self.humidityCharacteristic {
-                sensorTag.setNotifyValue(false, forCharacteristic: hc)
-            }
-            
-            /*
-             NOTE: The cancelPeripheralConnection: method is nonblocking, and any CBPeripheral class commands
-             that are still pending to the peripheral you’re trying to disconnect may or may not finish executing.
-             Because other apps may still have a connection to the peripheral, canceling a local connection
-             does not guarantee that the underlying physical link is immediately disconnected.
-             
-             From your app’s perspective, however, the peripheral is considered disconnected, and the central manager
-             object calls the centralManager:didDisconnectPeripheral:error: method of its delegate object.
-             */
-            centralManager.cancelPeripheralConnection(sensorTag)
-        }
-        temperatureCharacteristic = nil
-        humidityCharacteristic = nil
-    }
-    
+        
     
     // MARK: - Bluetooth scanning
     
@@ -150,9 +125,35 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         // Scanning uses up battery on phone, so pause the scan process for the designated interval.
         print("Timer fired...")
         startTimer()
-        centralManager.stopScan()
+        
+        // toggle scanning
+        if centralManager.isScanning {
+            stopScan()
+        }
+        else {
+            startScan()
+        }
+        
         disconnectButton.enabled = true
     }
+    
+    
+    func startScan() {
+        print("start scan")
+        //Option 1: Scan for all devices
+        centralManager.scanForPeripheralsWithServices(nil, options: nil)
+        
+        // Option 2: Scan for devices that have the service you're interested in...
+        //let sensorTagAdvertisingUUID = CBUUID(string: Device.SensorTagAdvertisingUUID)
+        //print("Scanning for SensorTag adverstising with UUID: \(sensorTagAdvertisingUUID)")
+        //centralManager.scanForPeripheralsWithServices([sensorTagAdvertisingUUID], options: nil)
+    }
+    
+    func stopScan() {
+        print("stop scan")
+        centralManager.stopScan()
+    }
+    
     
     func resumeScan() {
         if keepScanning {
@@ -162,7 +163,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
             temperatureLabel.text = "Searching"
             _ = NSTimer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
-            centralManager.scanForPeripheralsWithServices(nil, options: nil)
+            startScan()
+            
         } else {
             disconnectButton.enabled = true
         }
@@ -196,17 +198,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             print(message)
             keepScanning = true
             startTimer()
-            //_ = NSTimer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
-            
-            // Initiate Scan for Peripherals
-            //Option 1: Scan for all devices
-            centralManager.scanForPeripheralsWithServices(nil, options: nil)
-            
-            // Option 2: Scan for devices that have the service you're interested in...
-            //let sensorTagAdvertisingUUID = CBUUID(string: Device.SensorTagAdvertisingUUID)
-            //print("Scanning for SensorTag adverstising with UUID: \(sensorTagAdvertisingUUID)")
-            //centralManager.scanForPeripheralsWithServices([sensorTagAdvertisingUUID], options: nil)
-
+            startScan();
         }
         
         if showAlert {
@@ -235,25 +227,29 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
      */
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print("centralManager didDiscoverPeripheral - CBAdvertisementDataLocalNameKey is \"\(CBAdvertisementDataLocalNameKey)\"")
-
+        
         // Retrieve the peripheral name from the advertisement data using the "kCBAdvDataLocalName" key
         if let peripheralName = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
             print("NEXT PERIPHERAL NAME: \(peripheralName)")
             print("NEXT PERIPHERAL UUID: \(peripheral.identifier.UUIDString)")
             
-            if peripheralName == sensorTagName {
-                print("SENSOR TAG FOUND! ADDING NOW!!!")
-                // to save power, stop scanning for other devices
-                keepScanning = false
-                disconnectButton.enabled = true
-
-                // save a reference to the sensor tag
-                sensorTag = peripheral
-                sensorTag!.delegate = self
+            // Can get advertisement without peripheral??
+            if let thePeripheral: CBPeripheral = peripheral {
+                peripheralProxy.setPeripheral(central, peripheral: thePeripheral);
                 
-                // Request a connection to the peripheral
-                centralManager.connectPeripheral(sensorTag!, options: nil)
+                if peripheralProxy.isProvisionable() {
+                    
+                    print("SENSOR TAG FOUND! ADDING NOW!!!")
+                    // to save power, stop scanning for other devices
+                    keepScanning = false
+                    disconnectButton.enabled = true
+                    
+                    peripheralProxy.requestConnection()
+                }
             }
+        }
+        else {
+            print("advertised but no peripheral")
         }
     }
     
@@ -294,10 +290,10 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
      Invoked when an existing connection with a peripheral is torn down.
      
      This method is invoked when a peripheral connected via the connectPeripheral:options: method is disconnected. 
-     If the disconnection was not initiated by cancelPeripheralConnection:, the cause is detailed in error. 
+     If the disconnection was not initiated by cancelPeripheralConnection:, the error param shows the cause.
      After this method is called, no more methods are invoked on the peripheral device’s CBPeripheralDelegate object.
      
-     Note that when a peripheral is disconnected, all of its services, characteristics, and characteristic descriptors are invalidated.
+     When disconnected, all of the peripheral's services, characteristics, and characteristic descriptors are invalidated.
      */
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         print("**** DISCONNECTED FROM SENSOR TAG!!!")
@@ -311,118 +307,11 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         if error != nil {
             print("****** DISCONNECTION DETAILS: \(error!.localizedDescription)")
         }
-        sensorTag = nil
+        peripheralProxy.onDisconnected();
     }
     
     
-    //MARK: - CBPeripheralDelegate methods
     
-    /*
-     Invoked when you discover the peripheral’s available services.
-     
-     This method is invoked when your app calls the discoverServices: method. 
-     If the services of the peripheral are successfully discovered, you can access them 
-     through the peripheral’s services property. 
-     
-     If successful, the error parameter is nil. 
-     If unsuccessful, the error parameter returns the cause of the failure.
-     */
-    // When the specified services are discovered, the peripheral calls the peripheral:didDiscoverServices: method of its delegate object.
-    func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
-        if error != nil {
-            print("ERROR DISCOVERING SERVICES: \(error?.localizedDescription)")
-            return
-        }
-
-        // Core Bluetooth creates an array of CBService objects —- one for each service that is discovered on the peripheral.
-        if let services = peripheral.services {
-            for service in services {
-                print("Discovered service \(service)")
-                // If we found either the temperature or the humidity service, discover the characteristics for those services.
-                if (service.UUID == CBUUID(string: Device.TemperatureServiceUUID)) ||
-                    (service.UUID == CBUUID(string: Device.HumidityServiceUUID)) {
-                    peripheral.discoverCharacteristics(nil, forService: service)
-                }
-            }
-        }
-    }
-    
-    
-    /*
-     Invoked when you discover the characteristics of a specified service.
-     
-     If the characteristics of the specified service are successfully discovered, you can access
-     them through the service's characteristics property. 
-     
-     If successful, the error parameter is nil.
-     If unsuccessful, the error parameter returns the cause of the failure.
-     */
-    func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
-        if error != nil {
-            print("ERROR DISCOVERING CHARACTERISTICS: \(error?.localizedDescription)")
-            return
-        }
-        
-        if let characteristics = service.characteristics {
-            var enableValue:UInt8 = 1
-            let enableBytes = NSData(bytes: &enableValue, length: sizeof(UInt8))
-
-            for characteristic in characteristics {
-                // Temperature Data Characteristic
-                if characteristic.UUID == CBUUID(string: Device.TemperatureDataUUID) {
-                    // Enable the IR Temperature Sensor notifications
-                    temperatureCharacteristic = characteristic
-                    sensorTag?.setNotifyValue(true, forCharacteristic: characteristic)
-                }
-                
-                // Temperature Configuration Characteristic
-                if characteristic.UUID == CBUUID(string: Device.TemperatureConfig) {
-                    // Enable IR Temperature Sensor
-                    sensorTag?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
-                }
-                
-                if characteristic.UUID == CBUUID(string: Device.HumidityDataUUID) {
-                    // Enable Humidity Sensor notifications
-                    humidityCharacteristic = characteristic
-                    sensorTag?.setNotifyValue(true, forCharacteristic: characteristic)
-                }
-                
-                if characteristic.UUID == CBUUID(string: Device.HumidityConfig) {
-                    // Enable Humidity Temperature Sensor
-                    sensorTag?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
-                }
-            }
-        }
-    }
-    
-    
-    /*
-     Invoked when you retrieve a specified characteristic’s value, 
-     or when the peripheral device notifies your app that the characteristic’s value has changed.
-     
-     This method is invoked when your app calls the readValueForCharacteristic: method,
-     or when the peripheral notifies your app that the value of the characteristic for 
-     which notifications and indications are enabled has changed. 
-     
-     If successful, the error parameter is nil. 
-     If unsuccessful, the error parameter returns the cause of the failure.
-     */
-    func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        if error != nil {
-            print("ERROR ON UPDATING VALUE FOR CHARACTERISTIC: \(characteristic) - \(error?.localizedDescription)")
-            return
-        }
-        
-        // extract the data from the characteristic's value property and display the value based on the characteristic type
-        if let dataBytes = characteristic.value {
-            if characteristic.UUID == CBUUID(string: Device.TemperatureDataUUID) {
-                displayTemperature(dataBytes)
-            } else if characteristic.UUID == CBUUID(string: Device.HumidityDataUUID) {
-                displayHumidity(dataBytes)
-            }
-        }
-    }
-
     
     
 }
