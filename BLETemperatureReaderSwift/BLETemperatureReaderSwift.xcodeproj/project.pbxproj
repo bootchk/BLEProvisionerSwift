@@ -22,7 +22,7 @@
 		C80679C61CB9B7ED009BCB93 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C80679C91CB9B7ED009BCB93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C80679CB1CB9B7ED009BCB93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C80679D31CB9BF83009BCB93 /* TemperatureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureViewController.swift; sourceTree = "<group>"; };
+		C80679D31CB9BF83009BCB93 /* TemperatureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TemperatureViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		C80679D51CB9C03A009BCB93 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -272,7 +272,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BLETemperatureReaderSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.cloudcity.BLETemperatureReaderSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = bootch.nc.rr.com.BLETemperatureReaderSwift;
 				PRODUCT_NAME = BLETemperatureReaderSwift;
 			};
 			name = Debug;
@@ -283,7 +283,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BLETemperatureReaderSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.cloudcity.BLETemperatureReaderSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = bootch.nc.rr.com.BLETemperatureReaderSwift;
 				PRODUCT_NAME = BLETemperatureReaderSwift;
 			};
 			name = Release;

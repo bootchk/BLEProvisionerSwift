@@ -23,6 +23,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     // define our scanning interval times
     let timerPauseInterval:NSTimeInterval = 10.0
     let timerScanInterval:NSTimeInterval = 2.0
+  
+  var timer = NSTimer()
     
     // UI-related
     let temperatureLabelFontName = "HelveticaNeue-Thin"
@@ -69,7 +71,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         //      CBCentralManager object to implement the central role, specify this initialization option and provide
         //      a restoration identifier for the central manager when you allocate and initialize it.
         //centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
-        
+      
         // configure initial UI
         temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
         temperatureLabel.text = "Searching"
@@ -88,7 +90,18 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             updateTemperatureDisplay()
         }
     }
-    
+  
+  
+    // MARK: timers
+  
+    func startTimer() {
+        print("start timer")
+        timer = NSTimer.scheduledTimerWithTimeInterval(10,
+                                                       target: self,
+                                                       selector: #selector(pauseScan),
+                                                       userInfo: nil,
+                                                       repeats: false)
+    }
     
     // MARK: - Handling User Interaction
     
@@ -130,10 +143,10 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     
     // MARK: - Bluetooth scanning
     
-    func pauseScan() {
+    @objc func pauseScan() {
         // Scanning uses up battery on phone, so pause the scan process for the designated interval.
-        print("*** PAUSING SCAN...")
-        _ = NSTimer(timeInterval: timerPauseInterval, target: self, selector: #selector(resumeScan), userInfo: nil, repeats: false)
+        print("Timer fired...")
+        startTimer()
         centralManager.stopScan()
         disconnectButton.enabled = true
     }
@@ -299,7 +312,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             
             print(message)
             keepScanning = true
-            _ = NSTimer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
+            startTimer()
+            //_ = NSTimer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
             
             // Initiate Scan for Peripherals
             //Option 1: Scan for all devices
