@@ -117,7 +117,17 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         return
     }
     
-        
+    func toggleScanning() {
+        if centralManager.isScanning {
+            temperatureLabel.text = "Paused"
+            stopScan()
+        }
+        else {
+            temperatureLabel.text = "Scanning"
+            startScan()
+        }
+    }
+    
     
     // MARK: - Bluetooth scanning
     
@@ -126,11 +136,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         print("Timer fired...")
         startTimer()
         
-        // toggle scanning
-        if centralManager.isScanning {
-            stopScan()
-        }
-        else {
+        // Stay scanning
+        if !centralManager.isScanning  {
             startScan()
         }
         
@@ -233,13 +240,13 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             print("NEXT PERIPHERAL NAME: \(peripheralName)")
             print("NEXT PERIPHERAL UUID: \(peripheral.identifier.UUIDString)")
             
-            // Can get advertisement without peripheral??
+            // Can get advertisement without peripheral
             if let thePeripheral: CBPeripheral = peripheral {
-                peripheralProxy.setPeripheral(central, peripheral: thePeripheral);
+                peripheralProxy.setPeripheral(central, peripheral: thePeripheral, name: peripheralName);
                 
                 if peripheralProxy.isProvisionable() {
                     
-                    print("SENSOR TAG FOUND! ADDING NOW!!!")
+                    print("Desired device FOUND!")
                     // to save power, stop scanning for other devices
                     keepScanning = false
                     disconnectButton.enabled = true
@@ -261,7 +268,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
      You typically implement this method to set the peripheral’s delegate and to discover its services.
     */
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-        print("**** SUCCESSFULLY CONNECTED TO SENSOR TAG!!!")
+        print("**** SUCCESSFULLY CONNECTED!!!")
     
         temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
         temperatureLabel.text = "Connected"
@@ -282,7 +289,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
      in which case you may attempt to connect to the peripheral again.
      */
     func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
-        print("**** CONNECTION TO SENSOR TAG FAILED!!!")
+        print("**** CONNECTION TO desired device FAILED!!!")
     }
     
 
@@ -296,7 +303,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
      When disconnected, all of the peripheral's services, characteristics, and characteristic descriptors are invalidated.
      */
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
-        print("**** DISCONNECTED FROM SENSOR TAG!!!")
+        print("**** DISCONNECTED FROM desired device!")
         lastTemperature = 0
         updateBackgroundImageForTemperature(lastTemperature)
         circleView.hidden = true

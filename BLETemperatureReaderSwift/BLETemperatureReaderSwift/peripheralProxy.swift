@@ -12,35 +12,50 @@ import CoreBluetooth
 
 
 
-// Proxy pattern
-// Real subject is a peripheral as returned by CB
-// Also knows the central
+/*
+ Proxy pattern
+ 
+ Real subject is a peripheral as returned by CB
+ Also knows the central
+ 
+ Responsibilities:
+ - handling CBPeripheralDelegate methods
+ - recognizing desired specific peripheral (by name and service)
+ - knowing services and characteristics of peripheral
+*/
 
 class PeripheralProxy: NSObject, CBPeripheralDelegate {
   
   var sensorTag: CBPeripheral?
   var centralManager: CBCentralManager?
+  var peripheralName: String?
   
   // Proxy owns characteristics
   var temperatureCharacteristic:CBCharacteristic?
   var humidityCharacteristic:CBCharacteristic?
 
+  var serviceProxy: ServiceProxy?
   
   
   
-  func setPeripheral(central: CBCentralManager!, peripheral: CBPeripheral) {
+  func setPeripheral(central: CBCentralManager!,
+                     peripheral: CBPeripheral!,
+                     name: String?) {
     centralManager = central
     sensorTag = peripheral
+    peripheralName = name
     sensorTag!.delegate = self
+    serviceProxy = ServiceProxy()
   }
   
-  // Does name match
+  // Is this peripheral of the BT use case we want?
   func isProvisionable() -> Bool {
-    // TODO
-    return false
+    // TODO more than just name match
+    return peripheralName == "Firefl"  // "N07A2"
   }
   
   func requestConnection() {
+    print("request connection")
     centralManager!.connectPeripheral(sensorTag!, options: nil)
   }
   
@@ -101,9 +116,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     if let services = peripheral.services {
       for service in services {
         print("Discovered service \(service)")
-        // If we found either the temperature or the humidity service, discover the characteristics for those services.
-        if (service.UUID == CBUUID(string: Device.TemperatureServiceUUID)) ||
-          (service.UUID == CBUUID(string: Device.HumidityServiceUUID)) {
+        if serviceProxy!.isServerOfThisService(service) {
           peripheral.discoverCharacteristics(nil, forService: service)
         }
       }
@@ -127,10 +140,22 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     }
     
     if let characteristics = service.characteristics {
-      var enableValue:UInt8 = 1
+      // value to write
+      var enableValue:UInt8 = 7
       let enableBytes = NSData(bytes: &enableValue, length: sizeof(UInt8))
       
       for characteristic in characteristics {
+        
+        print("Discovered characteristic \(characteristic)")
+        
+        if serviceProxy!.isCharacteristicOfThisService(characteristic) {
+          print("writing value")
+          // type must be correct else write fails?
+          peripheral.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithoutResponse)
+          // Peripheral expected to disconnect itself after a write
+        }
+        /*
+        
         // Temperature Data Characteristic
         if characteristic.UUID == CBUUID(string: Device.TemperatureDataUUID) {
           // Enable the IR Temperature Sensor notifications
@@ -154,6 +179,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
           // Enable Humidity Temperature Sensor
           sensorTag?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
         }
+       */
       }
     }
   }
