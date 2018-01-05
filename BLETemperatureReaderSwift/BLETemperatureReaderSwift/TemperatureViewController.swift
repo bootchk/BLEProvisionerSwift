@@ -76,10 +76,12 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         peripheralProxy = PeripheralProxy()
       
         // configure initial UI
+        /*
         temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
         temperatureLabel.text = "Searching"
         humidityLabel.text = ""
         humidityLabel.hidden = true
+        */
         circleView.hidden = true
         backgroundImageViews = [backgroundImageView1, backgroundImageView2]
         view.bringSubviewToFront(backgroundImageViews[0])
@@ -119,11 +121,11 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     
     func toggleScanning() {
         if centralManager.isScanning {
-            temperatureLabel.text = "Paused"
+            feedbackScanning(true)
             stopScan()
         }
         else {
-            temperatureLabel.text = "Scanning"
+            
             startScan()
         }
     }
@@ -148,12 +150,16 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     func startScan() {
         print("start scan")
         //Option 1: Scan for all devices
-        centralManager.scanForPeripheralsWithServices(nil, options: nil)
+        //centralManager.scanForPeripheralsWithServices(nil, options: nil)
         
         // Option 2: Scan for devices that have the service you're interested in...
         //let sensorTagAdvertisingUUID = CBUUID(string: Device.SensorTagAdvertisingUUID)
         //print("Scanning for SensorTag adverstising with UUID: \(sensorTagAdvertisingUUID)")
         //centralManager.scanForPeripheralsWithServices([sensorTagAdvertisingUUID], options: nil)
+        centralManager.scanForPeripheralsWithServices([CBUUID(string: Device.CustomServiceUUID)], options: nil)
+        
+        
+        peripheralProxy.onStartScan()
     }
     
     func stopScan() {
@@ -167,8 +173,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             // Start scanning again...
             print("*** RESUMING SCAN!")
             disconnectButton.enabled = false
-            temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
-            temperatureLabel.text = "Searching"
+            feedbackScanning(true)
             _ = NSTimer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
             startScan()
             
@@ -245,13 +250,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
                 peripheralProxy.setPeripheral(central, peripheral: thePeripheral, name: peripheralName);
                 
                 if peripheralProxy.isProvisionable() {
-                    
-                    print("Desired device FOUND!")
-                    // to save power, stop scanning for other devices
-                    keepScanning = false
-                    disconnectButton.enabled = true
-                    
-                    peripheralProxy.requestConnection()
+                    peripheralProxy.onDiscoverProvisionable()
                 }
             }
         }
@@ -269,15 +268,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     */
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         print("**** SUCCESSFULLY CONNECTED!!!")
-    
-        temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
-        temperatureLabel.text = "Connected"
-        
-        // Now that we've successfully connected to the SensorTag, let's discover the services.
-        // - NOTE:  we pass nil here to request ALL services be discovered.
-        //          If there was a subset of services we were interested in, we could pass the UUIDs here.
-        //          Doing so saves battery life and saves time.
-        peripheral.discoverServices(nil)
+        feedbackConnected(true)
+        peripheralProxy.onConnected()
     }
     
     
@@ -307,10 +299,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         lastTemperature = 0
         updateBackgroundImageForTemperature(lastTemperature)
         circleView.hidden = true
-        temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
-        temperatureLabel.text = "Tap to search"
-        humidityLabel.text = ""
-        humidityLabel.hidden = true
+        feedbackConnected(false)
         if error != nil {
             print("****** DISCONNECTION DETAILS: \(error!.localizedDescription)")
         }

@@ -13,6 +13,8 @@ struct Device {
   
   
     static let CustomDeviceUUID =         "8A0B38BC-1CB5-5E43-D417-9F74D55C0AE3"
+    // over the air
+    // static let CustomDeviceAdvertisingUUID = "AA10"
     static let CustomServiceUUID =        "03B80E5A-EDE8-4B33-A751-6CE34EC4C700"
     static let CustomCharacteristicUUID = "7772E5DB-3868-4112-A1A9-F2669D106BF3"
     

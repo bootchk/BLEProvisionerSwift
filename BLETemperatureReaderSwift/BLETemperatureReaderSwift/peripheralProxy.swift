@@ -25,10 +25,16 @@ import CoreBluetooth
 */
 
 class PeripheralProxy: NSObject, CBPeripheralDelegate {
+
+// extension TemperatureViewController {
   
   var sensorTag: CBPeripheral?
   var centralManager: CBCentralManager?
   var peripheralName: String?
+  
+  var startScanTime:NSDate?
+  var discoverTime:NSDate?
+
   
   // Proxy owns characteristics
   var temperatureCharacteristic:CBCharacteristic?
@@ -81,11 +87,14 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
          Which will call self.onDisconnected()
          */
         centralManager!.cancelPeripheralConnection(sensorTag)
+        
+        disconnectModel()
     }
   }
   
   
-  func onDisconnected() {
+  // Remembered objects no longer valid
+  func disconnectModel() {
     temperatureCharacteristic = nil
     humidityCharacteristic = nil
     sensorTag = nil
@@ -117,7 +126,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
       for service in services {
         print("Discovered service \(service)")
         if serviceProxy!.isServerOfThisService(service) {
-          peripheral.discoverCharacteristics(nil, forService: service)
+          onDiscoverDesiredService(service)
         }
       }
     }
@@ -140,19 +149,13 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     }
     
     if let characteristics = service.characteristics {
-      // value to write
-      var enableValue:UInt8 = 7
-      let enableBytes = NSData(bytes: &enableValue, length: sizeof(UInt8))
-      
       for characteristic in characteristics {
         
         print("Discovered characteristic \(characteristic)")
         
         if serviceProxy!.isCharacteristicOfThisService(characteristic) {
-          print("writing value")
-          // type must be correct else write fails?
-          peripheral.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithoutResponse)
-          // Peripheral expected to disconnect itself after a write
+          onDiscoverDesiredCharacteristic(characteristic)
+          
         }
         /*
         
@@ -213,5 +216,25 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
   }
   
   
+  func discoverAllServices() {
+    
+    // pass nil here to request ALL services be discovered.
+    // If there was a subset of services we were interested in, we could pass the UUIDs here.
+    // Doing so saves battery life and saves time.
+    sensorTag!.discoverServices(nil)
+  }
+  
+  func discoverAllCharacteristics(forService: CBService!) {
+    sensorTag!.discoverCharacteristics(nil, forService: forService)
+  }
+  
+  func writeValue(value: Int8, characteristic: CBCharacteristic) {
+    // TODO use the passed value
+    // value to write
+    var enableValue:UInt8 = 7
+    let enableBytes = NSData(bytes: &enableValue, length: sizeof(UInt8))
+
+    sensorTag!.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithoutResponse)
+  }
   
 }

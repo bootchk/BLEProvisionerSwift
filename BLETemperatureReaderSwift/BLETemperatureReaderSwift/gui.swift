@@ -14,6 +14,28 @@ extension TemperatureViewController {
   
   // MARK: - Updating UI
   
+  func feedbackScanning(isScanning: Bool) {
+    if (isScanning) {
+      temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
+      temperatureLabel.text = "Scanning"
+    }
+    else {
+      temperatureLabel.text = "Paused"
+    }
+  }
+  
+  
+  func feedbackConnected(isConnected: Bool) {
+    if (isConnected) {
+      temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
+      temperatureLabel.text = "Connected"
+    }
+    else {
+      temperatureLabel.text = "Disconnected"
+    }
+  }
+
+  
   func updateTemperatureDisplay() {
     if !circleDrawn {
       drawCircle()
@@ -48,6 +70,8 @@ extension TemperatureViewController {
     }
     return temperatureTens
   }
+  
+  
   
   func updateBackgroundImageForTemperature(temperature:Int) {
     let temperatureTens = tensValue(temperature)
@@ -107,7 +131,7 @@ extension TemperatureViewController {
     }
   }
 
-  
+  /*
   func displayHumidity(data:NSData) {
     let dataLength = data.length / sizeof(UInt16)
     var dataArray = [UInt16](count:dataLength, repeatedValue: 0)
@@ -124,5 +148,5 @@ extension TemperatureViewController {
     humidityLabel.hidden = false
     
   }
-  
+  */
 }
