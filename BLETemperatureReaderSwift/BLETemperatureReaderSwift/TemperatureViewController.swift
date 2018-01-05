@@ -17,7 +17,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     @IBOutlet weak var backgroundImageView1: UIImageView!
     @IBOutlet weak var backgroundImageView2: UIImageView!
     @IBOutlet weak var controlContainerView: UIView!
-    @IBOutlet weak var circleView: UIView!
+    //@IBOutlet weak var circleView: UIView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var disconnectButton: UIButton!
@@ -82,7 +82,6 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         humidityLabel.text = ""
         humidityLabel.hidden = true
         */
-        circleView.hidden = true
         backgroundImageViews = [backgroundImageView1, backgroundImageView2]
         view.bringSubviewToFront(backgroundImageViews[0])
         backgroundImageViews[0].alpha = 1
@@ -91,9 +90,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     }
     
     override func viewWillAppear(animated: Bool) {
-        if lastTemperature != defaultInitialTemperature {
-            updateTemperatureDisplay()
-        }
+        // If app has displayed sensor values, update them here
     }
   
   
@@ -296,9 +293,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
      */
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         print("**** DISCONNECTED FROM desired device!")
-        lastTemperature = 0
-        updateBackgroundImageForTemperature(lastTemperature)
-        circleView.hidden = true
+        //lastTemperature = 0
+        //updateBackgroundImageForTemperature(lastTemperature)
         feedbackConnected(false)
         if error != nil {
             print("****** DISCONNECTION DETAILS: \(error!.localizedDescription)")

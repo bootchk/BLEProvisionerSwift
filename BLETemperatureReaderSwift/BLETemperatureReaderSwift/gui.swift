@@ -36,7 +36,8 @@ extension TemperatureViewController {
   }
 
   
-  func updateTemperatureDisplay() {
+  /*
+ func updateTemperatureDisplay() {
     if !circleDrawn {
       drawCircle()
     } else {
@@ -47,8 +48,10 @@ extension TemperatureViewController {
     temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeTemp)
     temperatureLabel.text = " \(lastTemperature)°"
   }
+ */
   
-  func drawCircle() {
+  /*
+ func drawCircle() {
     circleView.hidden = false
     let circleLayer = CAShapeLayer()
     circleLayer.path = UIBezierPath(ovalInRect: CGRectMake(0, 0, circleView.frame.width, circleView.frame.height)).CGPath
@@ -58,6 +61,7 @@ extension TemperatureViewController {
     circleLayer.fillColor = UIColor.clearColor().CGColor
     circleDrawn = true
   }
+ */
   
   func tensValue(temperature:Int) -> Int {
     var temperatureTens = 10;
@@ -73,7 +77,8 @@ extension TemperatureViewController {
   
   
   
-  func updateBackgroundImageForTemperature(temperature:Int) {
+  /*
+ func updateBackgroundImageForTemperature(temperature:Int) {
     let temperatureTens = tensValue(temperature)
     if temperatureTens != lastTemperatureTens {
       // generate file name of new background to show
@@ -98,7 +103,7 @@ extension TemperatureViewController {
       })
     }
   }
-
+ */
   
   func displayTemperature(data:NSData) {
     // We'll get four bytes of data back, so we divide the byte count by two
@@ -127,7 +132,7 @@ extension TemperatureViewController {
     print("*** LAST TEMPERATURE CAPTURED: \(lastTemperature)° F")
     
     if UIApplication.sharedApplication().applicationState == .Active {
-      updateTemperatureDisplay()
+      //updateTemperatureDisplay()
     }
   }
 

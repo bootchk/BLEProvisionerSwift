@@ -48,7 +48,7 @@
 		C80679B31CB9B7ED009BCB93 = {
 			isa = PBXGroup;
 			children = (
-				C80679BE1CB9B7ED009BCB93 /* BLETemperatureReaderSwift */,
+				C80679BE1CB9B7ED009BCB93 /* BLEProvisionerSwift */,
 				C80679BD1CB9B7ED009BCB93 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C80679BE1CB9B7ED009BCB93 /* BLETemperatureReaderSwift */ = {
+		C80679BE1CB9B7ED009BCB93 /* BLEProvisionerSwift */ = {
 			isa = PBXGroup;
 			children = (
 				C80679D51CB9C03A009BCB93 /* Device.swift */,
@@ -76,6 +76,7 @@
 				5FAFE6F61FF7D5F9009326A6 /* serviceProxy.swift */,
 				5FAFE6F81FFA7040009326A6 /* businessLogic.swift */,
 			);
+			name = BLEProvisionerSwift;
 			path = BLETemperatureReaderSwift;
 			sourceTree = "<group>";
 		};
