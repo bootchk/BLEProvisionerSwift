@@ -36,6 +36,41 @@ extension TemperatureViewController {
   }
 
   
+  func alertResult(message: String ) {
+    let alertController = UIAlertController(title: "Provisioner", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil)
+    alertController.addAction(okAction)
+    self.showViewController(alertController, sender: self)
+  }
+  
+  /*
+   Action is scan for provisionable and provision it.
+   */
+  func onActionStarted() {
+    startTimedProvisioning()
+    // TODO show net activity
+    disconnectButton.enabled = false
+    
+  }
+  
+  func onActionExpired()  {
+    
+    // stop net activity
+    
+    // alert user of failure
+    alertResult("Failed to find device")
+    
+    // enable action again
+    disconnectButton.enabled = true
+  }
+  
+  func onActionSuccess() {
+    alertResult("Provioned device")
+    disconnectButton.enabled = true
+    // TODO cancel timer
+  }
+
+  
   /*
  func updateTemperatureDisplay() {
     if !circleDrawn {

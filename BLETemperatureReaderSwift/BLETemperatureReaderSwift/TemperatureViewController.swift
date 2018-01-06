@@ -43,8 +43,8 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     
     var lastHumidity:Double = -9999
     
-    var circleDrawn = false
-    var keepScanning = false
+    //var circleDrawn = false
+    //var keepScanning = false
     //var isScanning = false
     
     
@@ -87,6 +87,9 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         backgroundImageViews[0].alpha = 1
         backgroundImageViews[1].alpha = 0
         view.bringSubviewToFront(controlContainerView)
+        
+        disconnectButton.enabled = true
+        disconnectButton.setTitle( "Foo", forState:UIControlState.Normal)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -100,20 +103,17 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         print("start timer")
         timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval,
                                                        target: self,
-                                                       selector: #selector(pauseScan),
+                                                       selector: #selector(timerExpired),
                                                        userInfo: nil,
                                                        repeats: false)
     }
     
     // MARK: - Handling User Interaction
     
+    // TODO rename
     @IBAction func handleDisconnectButtonTapped(sender: AnyObject) {
-        peripheralProxy.disconnect()
-        
-        // Start scanning for peripheral again
-        keepScanning = true
-        resumeScan()
-        return
+        // peripheralProxy.disconnect()
+        onActionStarted()
     }
     
     func toggleScanning() {
@@ -130,17 +130,11 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     
     // MARK: - Bluetooth scanning
     
-    @objc func pauseScan() {
-        // Scanning uses up battery on phone, so pause the scan process for the designated interval.
+    @objc func timerExpired() {
+        // Scanning uses up battery on phone
         print("Timer fired...")
-        startTimer()
         
-        // Stay scanning
-        if !centralManager.isScanning  {
-            startScan()
-        }
-        
-        disconnectButton.enabled = true
+        onActionExpired()
     }
     
     
@@ -165,6 +159,15 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     }
     
     
+    
+    func startTimedProvisioning()  {
+        startTimer()    // timeout
+        startScan();
+    }
+    
+    
+    
+    /*
     func resumeScan() {
         if keepScanning {
             // Start scanning again...
@@ -178,7 +181,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             disconnectButton.enabled = true
         }
     }
-    
+    */
     
         
         
@@ -204,10 +207,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
             showAlert = false
             message = "Bluetooth LE is turned on and ready for communication."
             
-            print(message)
-            keepScanning = true
-            startTimer()
-            startScan();
+            print(message);
         }
         
         if showAlert {
@@ -293,10 +293,11 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
      */
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         print("**** DISCONNECTED FROM desired device!")
-        //lastTemperature = 0
-        //updateBackgroundImageForTemperature(lastTemperature)
         feedbackConnected(false)
         if error != nil {
+            // We expect peripheral to initiate disconnect, but result is success
+            onActionSuccess()
+            
             print("****** DISCONNECTION DETAILS: \(error!.localizedDescription)")
         }
         peripheralProxy.onDisconnected();

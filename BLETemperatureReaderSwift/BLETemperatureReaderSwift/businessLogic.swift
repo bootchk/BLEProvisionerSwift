@@ -78,6 +78,8 @@ extension PeripheralProxy {
     print("Time from discover to disconnected: \(duration)")
   }
   
-}
+  
+  
+  }
 
 
