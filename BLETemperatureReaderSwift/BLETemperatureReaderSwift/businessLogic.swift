@@ -1,6 +1,6 @@
 //
 //  businessLogic.swift
-//  BLETemperatureReaderSwift
+//  BLEProvisionerSwift
 //
 //  Created by lloyd konneker on 1/1/18.
 //  Copyright © 2018 Lloyd Konneker. All rights reserved.

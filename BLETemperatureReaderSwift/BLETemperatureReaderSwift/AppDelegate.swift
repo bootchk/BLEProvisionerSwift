@@ -1,9 +1,6 @@
 //
 //  AppDelegate.swift
-//  iOSRemoteConfBLEDemo
-//
-//  Created by Evan Stone on 4/9/16.
-//  Copyright © 2016 Cloud City. All rights reserved.
+//  BLEProvisionerSwift
 //
 
 import UIKit

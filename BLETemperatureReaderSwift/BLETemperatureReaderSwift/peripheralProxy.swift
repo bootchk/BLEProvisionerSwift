@@ -1,6 +1,6 @@
 //
 //  peripheralProxy.swift
-//  BLETemperatureReaderSwift
+//  BLEProvisionerSwift
 //
 //  Created by lloyd konneker on 12/29/17.
 //  Copyright © 2017 Cloud City. All rights reserved.
@@ -28,7 +28,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
 
 // extension TemperatureViewController {
   
-  var sensorTag: CBPeripheral?
+  var realSubjectDevice: CBPeripheral?
   var centralManager: CBCentralManager?
   var peripheralName: String?
   
@@ -48,9 +48,9 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
                      peripheral: CBPeripheral!,
                      name: String?) {
     centralManager = central
-    sensorTag = peripheral
+    realSubjectDevice = peripheral
     peripheralName = name
-    sensorTag!.delegate = self
+    realSubjectDevice!.delegate = self
     serviceProxy = ServiceProxy()
   }
   
@@ -62,17 +62,17 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
   
   func requestConnection() {
     print("request connection")
-    centralManager!.connectPeripheral(sensorTag!, options: nil)
+    centralManager!.connectPeripheral(realSubjectDevice!, options: nil)
   }
   
   
   func disconnect() {
-      if let sensorTag = self.sensorTag {
+      if let realSubjectDevice = self.realSubjectDevice {
         if let tc = self.temperatureCharacteristic {
-          sensorTag.setNotifyValue(false, forCharacteristic: tc)
+          realSubjectDevice.setNotifyValue(false, forCharacteristic: tc)
         }
         if let hc = self.humidityCharacteristic {
-          sensorTag.setNotifyValue(false, forCharacteristic: hc)
+          realSubjectDevice.setNotifyValue(false, forCharacteristic: hc)
         }
         
         /*
@@ -86,7 +86,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
          
          Which will call self.onDisconnected()
          */
-        centralManager!.cancelPeripheralConnection(sensorTag)
+        centralManager!.cancelPeripheralConnection(realSubjectDevice)
         
         disconnectModel()
     }
@@ -97,7 +97,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
   func disconnectModel() {
     temperatureCharacteristic = nil
     humidityCharacteristic = nil
-    sensorTag = nil
+    realSubjectDevice = nil
   }
   
   
@@ -163,24 +163,24 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
         if characteristic.UUID == CBUUID(string: Device.TemperatureDataUUID) {
           // Enable the IR Temperature Sensor notifications
           //temperatureCharacteristic = characteristic
-          sensorTag?.setNotifyValue(true, forCharacteristic: characteristic)
+          realSubjectDevice?.setNotifyValue(true, forCharacteristic: characteristic)
         }
         
         // Temperature Configuration Characteristic
         if characteristic.UUID == CBUUID(string: Device.TemperatureConfig) {
           // Enable IR Temperature Sensor
-          sensorTag?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
+          realSubjectDevice?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
         }
         
         if characteristic.UUID == CBUUID(string: Device.HumidityDataUUID) {
           // Enable Humidity Sensor notifications
           //humidityCharacteristic = characteristic
-          sensorTag?.setNotifyValue(true, forCharacteristic: characteristic)
+          realSubjectDevice?.setNotifyValue(true, forCharacteristic: characteristic)
         }
         
         if characteristic.UUID == CBUUID(string: Device.HumidityConfig) {
           // Enable Humidity Temperature Sensor
-          sensorTag?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
+          realSubjectDevice?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
         }
        */
       }
@@ -199,6 +199,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
    If successful, the error parameter is nil.
    If unsuccessful, the error parameter returns the cause of the failure.
    */
+  /*
   func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
     if error != nil {
       print("ERROR ON UPDATING VALUE FOR CHARACTERISTIC: \(characteristic) - \(error?.localizedDescription)")
@@ -214,6 +215,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
       }
     }
   }
+  */
   
   
   func discoverAllServices() {
@@ -221,11 +223,11 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     // pass nil here to request ALL services be discovered.
     // If there was a subset of services we were interested in, we could pass the UUIDs here.
     // Doing so saves battery life and saves time.
-    sensorTag!.discoverServices(nil)
+    realSubjectDevice!.discoverServices(nil)
   }
   
   func discoverAllCharacteristics(forService: CBService!) {
-    sensorTag!.discoverCharacteristics(nil, forService: forService)
+    realSubjectDevice!.discoverCharacteristics(nil, forService: forService)
   }
   
   func writeValue(value: Int8, characteristic: CBCharacteristic) {
@@ -234,7 +236,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     var enableValue:UInt8 = 7
     let enableBytes = NSData(bytes: &enableValue, length: sizeof(UInt8))
 
-    sensorTag!.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithoutResponse)
+    realSubjectDevice!.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithoutResponse)
   }
   
 }

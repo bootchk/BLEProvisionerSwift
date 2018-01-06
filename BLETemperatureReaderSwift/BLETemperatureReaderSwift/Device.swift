@@ -18,7 +18,7 @@ struct Device {
     static let CustomServiceUUID =        "03B80E5A-EDE8-4B33-A751-6CE34EC4C700"
     static let CustomCharacteristicUUID = "7772E5DB-3868-4112-A1A9-F2669D106BF3"
     
-    static let SensorTagAdvertisingUUID = "AA10"
+    static let realSubjectDeviceAdvertisingUUID = "AA10"
     
     static let TemperatureServiceUUID = "F000AA00-0451-4000-B000-000000000000"
     static let TemperatureDataUUID =    "F000AA01-0451-4000-B000-000000000000"

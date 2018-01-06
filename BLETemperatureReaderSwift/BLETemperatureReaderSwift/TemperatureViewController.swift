@@ -1,30 +1,18 @@
-//
-//  TemperatureViewController.swift
-//  iOSRemoteConfBLEDemo
-//
-//  Created by Evan Stone on 4/9/16.
-//  Copyright © 2016 Cloud City. All rights reserved.
-//
+
 
 import UIKit
 import CoreBluetooth
 
-//import peripheralProxy
 
-// Conform to CBCentralManagerDelegate, CBPeripheralDelegate protocols
-class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
+
+class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
 
     @IBOutlet weak var backgroundImageView1: UIImageView!
-    @IBOutlet weak var backgroundImageView2: UIImageView!
     @IBOutlet weak var controlContainerView: UIView!
-    //@IBOutlet weak var circleView: UIView!
-    @IBOutlet weak var temperatureLabel: UILabel!
-    @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var disconnectButton: UIButton!
     
-    // define our scanning interval times
-    let timerInterval:NSTimeInterval = 20.0
-    let timerScanInterval:NSTimeInterval = 2.0
+    // duration of search for provisionable
+    let timerInterval:NSTimeInterval = 10.0
   
     var timer = NSTimer()
     
@@ -34,18 +22,6 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     let temperatureLabelFontSizeTemp:CGFloat = 81.0
     
     var backgroundImageViews: [UIImageView]!
-    var visibleBackgroundIndex = 0
-    var invisibleBackgroundIndex = 1
-    
-    var lastTemperatureTens = 0
-    let defaultInitialTemperature = -9999
-    var lastTemperature:Int!
-    
-    var lastHumidity:Double = -9999
-    
-    //var circleDrawn = false
-    //var keepScanning = false
-    //var isScanning = false
     
     
     // Core Bluetooth properties
@@ -57,8 +33,7 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        lastTemperature = defaultInitialTemperature
-
+    
         // Create our CBCentral Manager
         // delegate: The delegate that will receive central role events. Typically self.
         // queue:    The dispatch queue to use to dispatch the central role events. 
@@ -76,20 +51,15 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         peripheralProxy = PeripheralProxy()
       
         // configure initial UI
-        /*
-        temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
-        temperatureLabel.text = "Searching"
-        humidityLabel.text = ""
-        humidityLabel.hidden = true
-        */
-        backgroundImageViews = [backgroundImageView1, backgroundImageView2]
+        backgroundImageViews = [backgroundImageView1]
         view.bringSubviewToFront(backgroundImageViews[0])
         backgroundImageViews[0].alpha = 1
-        backgroundImageViews[1].alpha = 0
         view.bringSubviewToFront(controlContainerView)
         
         disconnectButton.enabled = true
-        disconnectButton.setTitle( "Foo", forState:UIControlState.Normal)
+        disconnectButton.setTitle( "Provision", forState:UIControlState.Normal)
+        disconnectButton.setTitle( "Searching...", forState:UIControlState.Disabled)
+        disconnectButton.titleLabel!.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)!
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -107,6 +77,14 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
                                                        userInfo: nil,
                                                        repeats: false)
     }
+
+    
+    func cancelTimer() {
+        timer.invalidate()
+    }
+    
+    
+    
     
     // MARK: - Handling User Interaction
     
@@ -116,26 +94,11 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         onActionStarted()
     }
     
-    func toggleScanning() {
-        if centralManager.isScanning {
-            feedbackScanning(true)
-            stopScan()
-        }
-        else {
-            
-            startScan()
-        }
-    }
+    
     
     
     // MARK: - Bluetooth scanning
     
-    @objc func timerExpired() {
-        // Scanning uses up battery on phone
-        print("Timer fired...")
-        
-        onActionExpired()
-    }
     
     
     func startScan() {
@@ -144,14 +107,15 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
         //centralManager.scanForPeripheralsWithServices(nil, options: nil)
         
         // Option 2: Scan for devices that have the service you're interested in...
-        //let sensorTagAdvertisingUUID = CBUUID(string: Device.SensorTagAdvertisingUUID)
-        //print("Scanning for SensorTag adverstising with UUID: \(sensorTagAdvertisingUUID)")
-        //centralManager.scanForPeripheralsWithServices([sensorTagAdvertisingUUID], options: nil)
+        //let realSubjectDeviceAdvertisingUUID = CBUUID(string: Device.realSubjectDeviceAdvertisingUUID)
+        //print("Scanning for realSubjectDevice adverstising with UUID: \(realSubjectDeviceAdvertisingUUID)")
+        //centralManager.scanForPeripheralsWithServices([realSubjectDeviceAdvertisingUUID], options: nil)
         centralManager.scanForPeripheralsWithServices([CBUUID(string: Device.CustomServiceUUID)], options: nil)
         
         
         peripheralProxy.onStartScan()
     }
+    
     
     func stopScan() {
         print("stop scan")
@@ -159,36 +123,30 @@ class TemperatureViewController: UIViewController, CBCentralManagerDelegate, CBP
     }
     
     
+    @objc func timerExpired() {
+        print("Timer fired...")
+        onActionExpired()
+    }
+
     
     func startTimedProvisioning()  {
         startTimer()    // timeout
         startScan();
     }
     
-    
-    
-    /*
-    func resumeScan() {
-        if keepScanning {
-            // Start scanning again...
-            print("*** RESUMING SCAN!")
-            disconnectButton.enabled = false
-            feedbackScanning(true)
-            _ = NSTimer(timeInterval: timerScanInterval, target: self, selector: #selector(pauseScan), userInfo: nil, repeats: false)
-            startScan()
-            
-        } else {
-            disconnectButton.enabled = true
-        }
-    }
-    */
-    
+
         
         
     // MARK: - CBCentralManagerDelegate methods
     
     // Invoked when the central manager’s state is updated.
     func centralManagerDidUpdateState(central: CBCentralManager) {
+        
+        /*
+        Since most of these states impede app,
+        alert user nothing is going to happen.
+        */
+        
         var showAlert = true
         var message = ""
         
