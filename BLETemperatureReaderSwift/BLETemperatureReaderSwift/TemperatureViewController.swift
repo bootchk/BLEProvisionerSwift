@@ -9,6 +9,7 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
 
     @IBOutlet weak var backgroundImageView1: UIImageView!
     @IBOutlet weak var controlContainerView: UIView!
+    // misnamed, not really a disconnect action
     @IBOutlet weak var disconnectButton: UIButton!
     
     // duration of search for provisionable
@@ -17,9 +18,8 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
     var timer = NSTimer()
     
     // UI-related
-    let temperatureLabelFontName = "HelveticaNeue-Thin"
-    let temperatureLabelFontSizeMessage:CGFloat = 56.0
-    let temperatureLabelFontSizeTemp:CGFloat = 81.0
+    let buttonLabelFontName = "HelveticaNeue-Thin"
+    let buttonLabelFontSizeMessage:CGFloat = 56.0
     
     var backgroundImageViews: [UIImageView]!
     
@@ -59,7 +59,7 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
         disconnectButton.enabled = true
         disconnectButton.setTitle( "Provision", forState:UIControlState.Normal)
         disconnectButton.setTitle( "Searching...", forState:UIControlState.Disabled)
-        disconnectButton.titleLabel!.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)!
+        disconnectButton.titleLabel!.font = UIFont(name: buttonLabelFontName, size: buttonLabelFontSizeMessage)!
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -88,7 +88,6 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
     
     // MARK: - Handling User Interaction
     
-    // TODO rename
     @IBAction func handleDisconnectButtonTapped(sender: AnyObject) {
         // peripheralProxy.disconnect()
         onActionStarted()

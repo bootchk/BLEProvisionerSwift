@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Provisioner View Controller-->
@@ -23,11 +24,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Nz-AX-Lln" userLabel="controlContainerView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5aL-bk-0lH">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5aL-bk-0lH">
                                         <rect key="frame" x="8" y="90" width="584" height="220"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="220" id="D8z-wp-v0b"/>
+                                            <constraint firstAttribute="height" constant="220" id="h0X-qh-lug"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <state key="normal" title="Provision"/>
                                         <connections>
                                             <action selector="handleDisconnectButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mJG-JO-23r"/>
@@ -36,8 +38,9 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="5aL-bk-0lH" firstAttribute="leading" secondItem="8Nz-AX-Lln" secondAttribute="leading" constant="8" id="29W-gp-lDS"/>
-                                    <constraint firstAttribute="trailing" secondItem="5aL-bk-0lH" secondAttribute="trailing" constant="8" id="E84-jc-QPc"/>
+                                    <constraint firstItem="5aL-bk-0lH" firstAttribute="trailing" secondItem="8Nz-AX-Lln" secondAttribute="trailingMargin" id="JSm-zN-1Nb"/>
+                                    <constraint firstItem="5aL-bk-0lH" firstAttribute="leading" secondItem="8Nz-AX-Lln" secondAttribute="leadingMargin" id="LkD-T1-t7p"/>
+                                    <constraint firstItem="5aL-bk-0lH" firstAttribute="top" secondItem="8Nz-AX-Lln" secondAttribute="top" constant="90" id="t1y-Ae-7xs"/>
                                 </constraints>
                             </view>
                         </subviews>

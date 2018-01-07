@@ -3,7 +3,7 @@
 //  BLEProvisionerSwift
 //
 //  Created by lloyd konneker on 12/29/17.
-//  Copyright © 2017 Cloud City. All rights reserved.
+//  Copyright © 2017 Lloyd Konneker. All rights reserved.
 //
 
 import Foundation
@@ -32,9 +32,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
   var centralManager: CBCentralManager?
   var peripheralName: String?
   
-  var startScanTime:NSDate?
-  var discoverTime:NSDate?
-
+  let syncher = Syncher()
   
   // Proxy owns characteristics
   var temperatureCharacteristic:CBCharacteristic?
@@ -54,11 +52,13 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     serviceProxy = ServiceProxy()
   }
   
+  
   // Is this peripheral of the BT use case we want?
   func isProvisionable() -> Bool {
     // TODO more than just name match
-    return peripheralName == "Firefl"  // "N07A2"
+    return peripheralName == Device.CustomServiceShortName
   }
+  
   
   func requestConnection() {
     print("request connection")
@@ -172,17 +172,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
           realSubjectDevice?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
         }
         
-        if characteristic.UUID == CBUUID(string: Device.HumidityDataUUID) {
-          // Enable Humidity Sensor notifications
-          //humidityCharacteristic = characteristic
-          realSubjectDevice?.setNotifyValue(true, forCharacteristic: characteristic)
-        }
-        
-        if characteristic.UUID == CBUUID(string: Device.HumidityConfig) {
-          // Enable Humidity Temperature Sensor
-          realSubjectDevice?.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithResponse)
-        }
-       */
+        */
       }
     }
   }
@@ -230,13 +220,12 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     realSubjectDevice!.discoverCharacteristics(nil, forService: forService)
   }
   
-  func writeValue(value: Int8, characteristic: CBCharacteristic) {
-    // TODO use the passed value
+  func writeValue(value: UInt8, characteristic: CBCharacteristic) {
     // value to write
-    var enableValue:UInt8 = 7
-    let enableBytes = NSData(bytes: &enableValue, length: sizeof(UInt8))
+    var valueToWrite:UInt8 = value
+    let bytesToWrite = NSData(bytes: &valueToWrite, length: sizeof(UInt8))
 
-    realSubjectDevice!.writeValue(enableBytes, forCharacteristic: characteristic, type: .WithoutResponse)
+    realSubjectDevice!.writeValue(bytesToWrite, forCharacteristic: characteristic, type: .WithoutResponse)
   }
   
 }

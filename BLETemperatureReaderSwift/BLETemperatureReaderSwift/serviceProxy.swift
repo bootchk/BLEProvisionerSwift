@@ -3,7 +3,7 @@
 //  BLEProvisionerSwift
 //
 //  Created by lloyd konneker on 12/30/17.
-//  Copyright © 2017 Cloud City. All rights reserved.
+//  Copyright © 2017 Lloyd Konneker. All rights reserved.
 //
 
 import Foundation

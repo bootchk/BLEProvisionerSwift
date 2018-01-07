@@ -15,7 +15,7 @@ extension ProvisionerViewController {
   // MARK: - Updating UI
   
   func feedbackScanning(isScanning: Bool) {
-    // TODO show net activity
+    // TODO show net activity?
     
     //Button label by state is the feedback.
  
@@ -58,7 +58,6 @@ extension ProvisionerViewController {
   func onActionStarted() {
     feedbackScanning(true)
     startTimedProvisioning()
-    // TODO show net activity
     disconnectButton.enabled = false
   }
   
