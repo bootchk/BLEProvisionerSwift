@@ -12,12 +12,11 @@
 		5FAFE6F71FF7D5F9009326A6 /* serviceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F61FF7D5F9009326A6 /* serviceProxy.swift */; };
 		5FAFE6F91FFA7040009326A6 /* businessLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F81FFA7040009326A6 /* businessLogic.swift */; };
 		5FF87C7720012A4000F22220 /* syncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF87C7620012A4000F22220 /* syncher.swift */; };
-		5FF87C7920019FE100F22220 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 5FF87C7820019FE100F22220 /* readme.md */; };
 		C80679C01CB9B7ED009BCB93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80679BF1CB9B7ED009BCB93 /* AppDelegate.swift */; };
 		C80679C51CB9B7ED009BCB93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C80679C31CB9B7ED009BCB93 /* Main.storyboard */; };
 		C80679C71CB9B7ED009BCB93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C80679C61CB9B7ED009BCB93 /* Assets.xcassets */; };
 		C80679CA1CB9B7ED009BCB93 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C80679C81CB9B7ED009BCB93 /* LaunchScreen.storyboard */; };
-		C80679D41CB9BF83009BCB93 /* TemperatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80679D31CB9BF83009BCB93 /* TemperatureViewController.swift */; };
+		C80679D41CB9BF83009BCB93 /* BLEProvisionerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80679D31CB9BF83009BCB93 /* BLEProvisionerViewController.swift */; };
 		C80679D61CB9C03A009BCB93 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80679D51CB9C03A009BCB93 /* Device.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,14 +26,13 @@
 		5FAFE6F61FF7D5F9009326A6 /* serviceProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = serviceProxy.swift; sourceTree = "<group>"; };
 		5FAFE6F81FFA7040009326A6 /* businessLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = businessLogic.swift; sourceTree = "<group>"; };
 		5FF87C7620012A4000F22220 /* syncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncher.swift; sourceTree = "<group>"; };
-		5FF87C7820019FE100F22220 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
-		C80679BC1CB9B7ED009BCB93 /* BLETemperatureReaderSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLETemperatureReaderSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C80679BC1CB9B7ED009BCB93 /* BLEProvisionerSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLEProvisionerSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80679BF1CB9B7ED009BCB93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C80679C41CB9B7ED009BCB93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C80679C61CB9B7ED009BCB93 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C80679C91CB9B7ED009BCB93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C80679CB1CB9B7ED009BCB93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C80679D31CB9BF83009BCB93 /* TemperatureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TemperatureViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
+		C80679D31CB9BF83009BCB93 /* BLEProvisionerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BLEProvisionerViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		C80679D51CB9C03A009BCB93 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,7 +58,7 @@
 		C80679BD1CB9B7ED009BCB93 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C80679BC1CB9B7ED009BCB93 /* BLETemperatureReaderSwift.app */,
+				C80679BC1CB9B7ED009BCB93 /* BLEProvisionerSwift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,7 +68,7 @@
 			children = (
 				C80679D51CB9C03A009BCB93 /* Device.swift */,
 				C80679BF1CB9B7ED009BCB93 /* AppDelegate.swift */,
-				C80679D31CB9BF83009BCB93 /* TemperatureViewController.swift */,
+				C80679D31CB9BF83009BCB93 /* BLEProvisionerViewController.swift */,
 				C80679C31CB9B7ED009BCB93 /* Main.storyboard */,
 				C80679C61CB9B7ED009BCB93 /* Assets.xcassets */,
 				C80679C81CB9B7ED009BCB93 /* LaunchScreen.storyboard */,
@@ -80,18 +78,16 @@
 				5FAFE6F61FF7D5F9009326A6 /* serviceProxy.swift */,
 				5FAFE6F81FFA7040009326A6 /* businessLogic.swift */,
 				5FF87C7620012A4000F22220 /* syncher.swift */,
-				5FF87C7820019FE100F22220 /* readme.md */,
 			);
-			name = BLEProvisionerSwift;
-			path = BLETemperatureReaderSwift;
+			path = BLEProvisionerSwift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C80679BB1CB9B7ED009BCB93 /* BLETemperatureReaderSwift */ = {
+		C80679BB1CB9B7ED009BCB93 /* BLEProvisionerSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C80679CE1CB9B7ED009BCB93 /* Build configuration list for PBXNativeTarget "BLETemperatureReaderSwift" */;
+			buildConfigurationList = C80679CE1CB9B7ED009BCB93 /* Build configuration list for PBXNativeTarget "BLEProvisionerSwift" */;
 			buildPhases = (
 				C8005C8A1D39920B0000F8BA /* ShellScript */,
 				C80679B81CB9B7ED009BCB93 /* Sources */,
@@ -102,9 +98,9 @@
 			);
 			dependencies = (
 			);
-			name = BLETemperatureReaderSwift;
+			name = BLEProvisionerSwift;
 			productName = iOSRemoteConfBLEDemo;
-			productReference = C80679BC1CB9B7ED009BCB93 /* BLETemperatureReaderSwift.app */;
+			productReference = C80679BC1CB9B7ED009BCB93 /* BLEProvisionerSwift.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -115,10 +111,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = "Cloud City";
+				ORGANIZATIONNAME = "Lloyd Konneker";
 				TargetAttributes = {
 					C80679BB1CB9B7ED009BCB93 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = T5JVHK5BA6;
 					};
 				};
 			};
@@ -135,7 +132,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C80679BB1CB9B7ED009BCB93 /* BLETemperatureReaderSwift */,
+				C80679BB1CB9B7ED009BCB93 /* BLEProvisionerSwift */,
 			);
 		};
 /* End PBXProject section */
@@ -175,13 +172,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FAFE6F51FF65D75009326A6 /* peripheralProxy.swift in Sources */,
-				5FF87C7920019FE100F22220 /* readme.md in Sources */,
 				C80679D61CB9C03A009BCB93 /* Device.swift in Sources */,
 				5FAFE6F31FF6557F009326A6 /* gui.swift in Sources */,
 				C80679C01CB9B7ED009BCB93 /* AppDelegate.swift in Sources */,
 				5FF87C7720012A4000F22220 /* syncher.swift in Sources */,
 				5FAFE6F71FF7D5F9009326A6 /* serviceProxy.swift in Sources */,
-				C80679D41CB9BF83009BCB93 /* TemperatureViewController.swift in Sources */,
+				C80679D41CB9BF83009BCB93 /* BLEProvisionerViewController.swift in Sources */,
 				5FAFE6F91FFA7040009326A6 /* businessLogic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,10 +291,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = BLETemperatureReaderSwift/Info.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = BLEProvisionerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bootch.nc.rr.com.BLETemperatureReaderSwift;
-				PRODUCT_NAME = BLETemperatureReaderSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = bootch.nc.rr.com.BLEProvisionerSwift;
+				PRODUCT_NAME = BLEProvisionerSwift;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -306,10 +305,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = BLETemperatureReaderSwift/Info.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = BLEProvisionerSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = bootch.nc.rr.com.BLETemperatureReaderSwift;
-				PRODUCT_NAME = BLETemperatureReaderSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = bootch.nc.rr.com.BLEProvisionerSwift;
+				PRODUCT_NAME = BLEProvisionerSwift;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -325,7 +327,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C80679CE1CB9B7ED009BCB93 /* Build configuration list for PBXNativeTarget "BLETemperatureReaderSwift" */ = {
+		C80679CE1CB9B7ED009BCB93 /* Build configuration list for PBXNativeTarget "BLEProvisionerSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C80679CF1CB9B7ED009BCB93 /* Debug */,

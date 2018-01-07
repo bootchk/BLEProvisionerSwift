@@ -12,35 +12,15 @@ import UIKit
 
 extension ProvisionerViewController {
   
-  // MARK: - Updating UI
   
   func feedbackScanning(isScanning: Bool) {
     // TODO show net activity?
     
     //Button label by state is the feedback.
- 
-    /*
-    if (isScanning) {
-      temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
-      temperatureLabel.text = "Scanning"
-    }
-    else {
-      temperatureLabel.text = "Paused"
-    }
-   */
   }
   
   
   func feedbackConnected(isConnected: Bool) {
-    /*
-    if (isConnected) {
-      temperatureLabel.font = UIFont(name: temperatureLabelFontName, size: temperatureLabelFontSizeMessage)
-      temperatureLabel.text = "Connected"
-    }
-    else {
-      temperatureLabel.text = "Disconnected"
-    }
-    */
   }
 
   
@@ -64,14 +44,14 @@ extension ProvisionerViewController {
   
   func onActionExpired()  {
     feedbackScanning(false)
-    
-    // alert user of failure
     alertResult("Failed to find device")
     disconnectButton.enabled = true
   }
   
   func onActionSuccess() {
+    // cancel timer that would expire
     cancelTimer()
+    
     feedbackScanning(false)
     alertResult("Provioned device")
     disconnectButton.enabled = true
