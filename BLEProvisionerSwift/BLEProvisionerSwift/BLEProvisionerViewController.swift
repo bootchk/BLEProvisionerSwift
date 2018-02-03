@@ -124,7 +124,24 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
     
     @objc func timerExpired() {
         print("Timer fired...")
-        onActionExpired()
+        
+        /*
+         Race: timeout in middle of a connection.
+         Let connection finish.
+         The business logic ensures a finite time to finish.
+         i.e. we will write and the peripheral will disconnect itself
+         If something else happens and we keep scanning, user can always kill this app.
+         */
+        if (isConnected()) {
+            // wait for session to finish, or for connection to die.
+        }
+        else {
+            // We are scanning w/o a connection
+            stopScan()
+            onActionExpired()
+        }
+        // assert timer not running
+        // assert isConnected() OR not scanning
     }
 
     
@@ -134,6 +151,11 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
     }
     
 
+    func isConnected() ->Bool {
+        let list = centralManager.retrieveConnectedPeripheralsWithServices([CBUUID(string: Device.CustomServiceUUID), ])
+        // Assume no other app is connecting to the service, else will get a non-empty list
+        return list.isEmpty
+    }
         
         
     // MARK: - CBCentralManagerDelegate methods
