@@ -3,6 +3,18 @@ import Foundation
 
 
 /*
+ config i.e. constants of the app
+ */
+
+
+struct AppConstants {
+  // duration of search/scan for provisionable
+  static let sessionDuration:NSTimeInterval = 10.0
+}
+
+
+
+/*
  Constant identifiers for device, service, characteristics.
  
  Custom: not defined by BT consortium/org

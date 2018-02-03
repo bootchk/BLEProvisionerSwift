@@ -39,13 +39,12 @@ class Syncher {
      */
     var result:UInt8
     
-    let maxInterval:NSTimeInterval = 10;
-    
-    if (offset > maxInterval) {
+    if (offset > AppConstants.sessionDuration) {
+      print("Interval exceeded")
       result = 0
     }
     else {
-      result = UInt8( (offset! / maxInterval) * 255 )
+      result = UInt8( (offset! / AppConstants.sessionDuration) * 255 )
     }
     return result
   }

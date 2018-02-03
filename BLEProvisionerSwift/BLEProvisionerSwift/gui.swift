@@ -50,7 +50,7 @@ extension ProvisionerViewController {
   
   func onActionSuccess() {
     // cancel timer that would expire
-    cancelTimer()
+    cancelSessionTimer()
     
     feedbackScanning(false)
     alertResult("Provisioned device")

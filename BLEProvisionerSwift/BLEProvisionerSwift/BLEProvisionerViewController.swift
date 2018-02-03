@@ -11,9 +11,6 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
     @IBOutlet weak var controlContainerView: UIView!
     // misnamed, not really a disconnect action
     @IBOutlet weak var disconnectButton: UIButton!
-    
-    // duration of search for provisionable
-    let timerInterval:NSTimeInterval = 10.0
   
     var timer = NSTimer()
     
@@ -69,9 +66,10 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
   
     // MARK: timers
   
-    func startTimer() {
+    func startSessionTimer() {
         print("start timer")
-        timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval,
+        // Wait one second less to allow connections to finish
+        timer = NSTimer.scheduledTimerWithTimeInterval(AppConstants.sessionDuration - 1,
                                                        target: self,
                                                        selector: #selector(timerExpired),
                                                        userInfo: nil,
@@ -79,7 +77,7 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
     }
 
     
-    func cancelTimer() {
+    func cancelSessionTimer() {
         timer.invalidate()
     }
     
@@ -125,6 +123,9 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
     @objc func timerExpired() {
         print("Timer fired...")
         
+        stopScan()
+        // scanning is stopped but still might be a connection
+        
         /*
          Race: timeout in middle of a connection.
          Let connection finish.
@@ -133,28 +134,28 @@ class ProvisionerViewController: UIViewController, CBCentralManagerDelegate, CBP
          If something else happens and we keep scanning, user can always kill this app.
          */
         if (isConnected()) {
+            print("Connection in progress, waiting...")
             // wait for session to finish, or for connection to die.
         }
         else {
-            // We are scanning w/o a connection
-            stopScan()
             onActionExpired()
         }
         // assert timer not running
-        // assert isConnected() OR not scanning
+        assert(!centralManager.isScanning)
     }
 
     
     func startTimedProvisioning()  {
-        startTimer()    // timeout
+        startSessionTimer()    // timeout
         startScan();
     }
     
 
     func isConnected() ->Bool {
         let list = centralManager.retrieveConnectedPeripheralsWithServices([CBUUID(string: Device.CustomServiceUUID), ])
+        print(list)
         // Assume no other app is connecting to the service, else will get a non-empty list
-        return list.isEmpty
+        return !list.isEmpty
     }
         
         
