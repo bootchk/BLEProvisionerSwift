@@ -18,3 +18,33 @@ The time interval to find and provision depends on how often the peripheral is a
 The time interval to provision (from time app discovers peripheral to time app writes characteristic) is typically about half a second.  That probably results from properties of the Bluetooth protocol and probably doesn't result from properties of iOS or app software implementations.
 
 Project derived from ZeroToBLESwift project on Github.
+
+Test cases:
+
+Finds a device:
+    1. Press Provision button
+        Expect "Searching" to appear.
+    2. Wait no more than ten seconds
+       Expect an alert "Provisioned device"
+       Expect device's characteristic to be written with the time since Provision button was pushed as a ratio to 255 of ten seconds.
+    3. Press OK
+       Expect "Provision" button enabled again.
+
+
+Fail to find device:
+    1. Press Provision button
+        Expect "Searching" to appear.
+    2. Wait
+       Expect no more than ten seconds elapsed
+       Expect an alert "Failed to find device"
+    3. Press OK
+       Expect "Provision" button enabled again.
+  
+Find device at the last moment:
+Repeat many times, varying timing relative to when the device is awake (the peripheral is asleep mostly).
+When the timing is such that a device is found just before a session ends, should behave as for "Finds a device".  Expect one alert or the other, but not both.  In rare cases, the characteristic may be written with a 0, meaning the time since "Provision" button was pushed was greater than ten seconds.
+
+Device dies after connection:
+If the device dies after a connection is made, the app should eventually (?) timeout the connection.
+    
+
