@@ -9,11 +9,12 @@
 import Foundation
 
 /*
- Calculates offset from time of action (button pushed)
+ Offset is duration from time of action (button pushed)
  to time action is sent to peripheral device.
  
- The offset is written to peripheral device
+ The offset is sent to provisioned device
  so it can know what real time button was remotely pushed.
+ Real time button was pushed is time of arrival minus offset (after conversion of clock times.)
  */
 class Syncher {
   
@@ -37,11 +38,14 @@ class Syncher {
      A value of 0 means offset was greater than the interval.
      */
     var result:UInt8
-    if (offset > 10) {
+    
+    let maxInterval:NSTimeInterval = 10;
+    
+    if (offset > maxInterval) {
       result = 0
     }
     else {
-      result = UInt8( (offset! / 2) * 255 )
+      result = UInt8( (offset! / maxInterval) * 255 )
     }
     return result
   }

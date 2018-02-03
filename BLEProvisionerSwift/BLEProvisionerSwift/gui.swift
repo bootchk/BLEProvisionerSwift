@@ -53,7 +53,7 @@ extension ProvisionerViewController {
     cancelTimer()
     
     feedbackScanning(false)
-    alertResult("Provioned device")
+    alertResult("Provisioned device")
     disconnectButton.enabled = true
   }
 
