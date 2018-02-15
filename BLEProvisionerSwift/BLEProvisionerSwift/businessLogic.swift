@@ -69,13 +69,20 @@ extension PeripheralProxy {
     
     // Write an offset from button push to now,
     syncher.markEnd()
+    let eventOffset = syncher.getOffset()
     
-    let writtenValue = syncher.getOffset()
     
-    print("writing value: \(writtenValue)")
+    print("writing value: \(eventOffset)")
     
-    // type must be correct type of BLE characteristic (one byte) else write fails?
-    writeValue(writtenValue, characteristic: characteristic)
+    /*
+    Write to the characteristic: attributes of this user action:  which widget, what value, and when
+    Serialized into byte array.
+    */
+    // TODO real values for widget
+    writeValue(1, // widgetValue,
+      widgetIndex: 1,
+      eventOffset: eventOffset,
+      characteristic: characteristic)
     
     /*
     In this app, expect peripheral to disconnect itself after a write

@@ -155,7 +155,6 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
         
         if serviceProxy!.isCharacteristicOfThisService(characteristic) {
           onDiscoverDesiredCharacteristic(characteristic)
-          
         }
         /*
         
@@ -220,11 +219,23 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     realSubjectDevice!.discoverCharacteristics(nil, forService: forService)
   }
   
-  func writeValue(value: UInt8, characteristic: CBCharacteristic) {
+  
+  
+  
+  
+  func writeValue(widgetValue: UInt8,
+                  widgetIndex: UInt8,
+                  eventOffset: UInt8,
+                  characteristic: CBCharacteristic) {
+    
+    let bytesToWrite = ValueSerializer.serialize(widgetValue, widgetIndex: widgetIndex, eventOffset: eventOffset)
+    
     // value to write
-    var valueToWrite:UInt8 = value
-    let bytesToWrite = NSData(bytes: &valueToWrite, length: sizeof(UInt8))
+    //var valueToWrite:UInt8 = value
+    //let bytesToWrite = NSData(bytes: &valueToWrite, length: sizeof(UInt8))
 
+    // length of characteristic must be 4 else write fails?
+    // type must correspond to characteristic property else write fails?
     realSubjectDevice!.writeValue(bytesToWrite, forCharacteristic: characteristic, type: .WithoutResponse)
   }
   

@@ -18,10 +18,6 @@ extension ProvisionerViewController {
     
     //Button label by state is the feedback.
   }
-  
-  
-  func feedbackConnected(isConnected: Bool) {
-  }
 
   
   func alertResult(message: String ) {
@@ -48,7 +44,8 @@ extension ProvisionerViewController {
     disconnectButton.enabled = true
   }
   
-  func onActionSuccess() {
+  // protocol ProvisioningDelegate protocol method
+  func didSucceedProvisioning() {
     // cancel timer that would expire
     cancelSessionTimer()
     

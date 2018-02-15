@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F601F3020347F990035BD9B /* valueSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F601F2F20347F990035BD9B /* valueSerializer.swift */; };
+		5F8BC9FC2035BEB7006B71BF /* BLEDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8BC9FB2035BEB7006B71BF /* BLEDelegate.swift */; };
 		5FAFE6F31FF6557F009326A6 /* gui.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F21FF6557F009326A6 /* gui.swift */; };
 		5FAFE6F51FF65D75009326A6 /* peripheralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F41FF65D75009326A6 /* peripheralProxy.swift */; };
 		5FAFE6F71FF7D5F9009326A6 /* serviceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F61FF7D5F9009326A6 /* serviceProxy.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F601F2F20347F990035BD9B /* valueSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = valueSerializer.swift; sourceTree = "<group>"; };
+		5F8BC9FB2035BEB7006B71BF /* BLEDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDelegate.swift; sourceTree = "<group>"; };
 		5FAFE6F21FF6557F009326A6 /* gui.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gui.swift; sourceTree = "<group>"; };
 		5FAFE6F41FF65D75009326A6 /* peripheralProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = peripheralProxy.swift; sourceTree = "<group>"; };
 		5FAFE6F61FF7D5F9009326A6 /* serviceProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = serviceProxy.swift; sourceTree = "<group>"; };
@@ -78,6 +82,8 @@
 				5FAFE6F61FF7D5F9009326A6 /* serviceProxy.swift */,
 				5FAFE6F81FFA7040009326A6 /* businessLogic.swift */,
 				5FF87C7620012A4000F22220 /* syncher.swift */,
+				5F601F2F20347F990035BD9B /* valueSerializer.swift */,
+				5F8BC9FB2035BEB7006B71BF /* BLEDelegate.swift */,
 			);
 			path = BLEProvisionerSwift;
 			sourceTree = "<group>";
@@ -173,11 +179,13 @@
 			files = (
 				5FAFE6F51FF65D75009326A6 /* peripheralProxy.swift in Sources */,
 				C80679D61CB9C03A009BCB93 /* Device.swift in Sources */,
+				5F8BC9FC2035BEB7006B71BF /* BLEDelegate.swift in Sources */,
 				5FAFE6F31FF6557F009326A6 /* gui.swift in Sources */,
 				C80679C01CB9B7ED009BCB93 /* AppDelegate.swift in Sources */,
 				5FF87C7720012A4000F22220 /* syncher.swift in Sources */,
 				5FAFE6F71FF7D5F9009326A6 /* serviceProxy.swift in Sources */,
 				C80679D41CB9BF83009BCB93 /* BLEProvisionerViewController.swift in Sources */,
+				5F601F3020347F990035BD9B /* valueSerializer.swift in Sources */,
 				5FAFE6F91FFA7040009326A6 /* businessLogic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
