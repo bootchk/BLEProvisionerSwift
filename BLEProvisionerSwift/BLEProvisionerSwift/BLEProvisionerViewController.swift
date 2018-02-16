@@ -20,9 +20,9 @@ import UIKit
 
  */
 
-class ProvisionerViewController: UIViewController, ProvisioningDelegate{
+class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDelegate {
   
-    var timer = NSTimer()
+    
 
     // Delegate for BLE actions
     var bleDelegate: BLEDelegate!
@@ -34,11 +34,14 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate{
     @IBOutlet weak var controlContainerView: UIView!
     // misnamed, not really a disconnect action
     @IBOutlet weak var disconnectButton: UIButton!
+    @IBOutlet weak var progressView: UIProgressView!
     
     let buttonLabelFontName = "HelveticaNeue-Thin"
     let buttonLabelFontSizeMessage:CGFloat = 56.0
     
     var backgroundImageViews: [UIImageView]!
+    
+    let timerWithProgress: TimerWithProgress = TimerWithProgress()
     
     
     
@@ -63,26 +66,23 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate{
     */
     
   
-    // MARK: timers
+    // MARK: session timer
   
     func startSessionTimer() {
         print("start timer")
-        // Wait one second less to allow connections to finish
-        timer = NSTimer.scheduledTimerWithTimeInterval(AppConstants.sessionDuration - 1,
-                                                       target: self,
-                                                       selector: #selector(timerExpired),
-                                                       userInfo: nil,
-                                                       repeats: false)
+        
+         // Wait one second less to allow connections to finish
+        timerWithProgress.start(AppConstants.sessionDuration - 1, aDelegate: self, aProgress: progressView)
     }
 
     
     func cancelSessionTimer() {
-        timer.invalidate()
+        timerWithProgress.cancel()
+        resetProgress()
     }
     
-
     
-    @objc func timerExpired() {
+    func onTimerExpired() {
         print("Timer fired...")
         
         bleDelegate.stopScan()
@@ -102,6 +102,7 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate{
         else {
             onActionExpired()
         }
+        resetProgress()
         // assert timer not running
         assert(!bleDelegate.isScanning())
     }

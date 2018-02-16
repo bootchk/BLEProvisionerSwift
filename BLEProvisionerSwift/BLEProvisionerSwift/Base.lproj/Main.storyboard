@@ -39,13 +39,28 @@
                                         <rect key="frame" x="227" y="236" width="156" height="89"/>
                                         <state key="normal" title="Button"/>
                                     </button>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="h1b-jg-fls">
+                                        <rect key="frame" x="107" y="313" width="249" height="2"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10" id="4SV-VD-JM8"/>
+                                        </constraints>
+                                    </progressView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="h1b-jg-fls" secondAttribute="trailing" constant="8" id="5LN-dS-zEv"/>
+                                    <constraint firstItem="h1b-jg-fls" firstAttribute="leading" secondItem="8Nz-AX-Lln" secondAttribute="leading" constant="8" id="AbA-gO-tl3"/>
                                     <constraint firstItem="5aL-bk-0lH" firstAttribute="trailing" secondItem="8Nz-AX-Lln" secondAttribute="trailingMargin" id="JSm-zN-1Nb"/>
                                     <constraint firstItem="5aL-bk-0lH" firstAttribute="leading" secondItem="8Nz-AX-Lln" secondAttribute="leadingMargin" id="LkD-T1-t7p"/>
+                                    <constraint firstItem="h1b-jg-fls" firstAttribute="leading" secondItem="8Nz-AX-Lln" secondAttribute="leading" constant="8" id="R4A-th-Yw6"/>
+                                    <constraint firstItem="h1b-jg-fls" firstAttribute="leading" secondItem="8Nz-AX-Lln" secondAttribute="leading" constant="8" id="nl2-T9-M53"/>
                                     <constraint firstItem="5aL-bk-0lH" firstAttribute="top" secondItem="8Nz-AX-Lln" secondAttribute="top" constant="90" id="t1y-Ae-7xs"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="AbA-gO-tl3"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -64,6 +79,7 @@
                         <outlet property="backgroundImageView1" destination="B3K-2v-qVg" id="rmh-8U-iZU"/>
                         <outlet property="controlContainerView" destination="8Nz-AX-Lln" id="Ulr-6J-S0j"/>
                         <outlet property="disconnectButton" destination="5aL-bk-0lH" id="yc1-zZ-QdC"/>
+                        <outlet property="progressView" destination="h1b-jg-fls" id="Ssp-W1-7bm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

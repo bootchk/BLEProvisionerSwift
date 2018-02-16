@@ -69,6 +69,8 @@ extension ProvisionerViewController {
     self.view.bringSubviewToFront(controlContainerView)
     
     configureButton()
+    
+    feedbackScanning(false)
   }
   
   
@@ -122,7 +124,7 @@ extension ProvisionerViewController {
     2. activityIndicator is for non-quantifiable duration
     3. Duration is quantifiable (e.g. ten seconds max) so should use progress bar.
     */
-    // TODO progress bar
+    progressView.hidden = !isScanning
     
     // For now: Button label by state is the feedback.
   }
@@ -143,5 +145,13 @@ extension ProvisionerViewController {
     alertController.addAction(okAction)
     return alertController
   }
+  
+  
+  // MARK: progress
+  
+  func resetProgress() {
+    progressView.setProgress(0.0, animated: false)
+  }
+  
   
 }
