@@ -1,51 +1,66 @@
 
 
 import UIKit
-import CoreBluetooth
 
 
 
-class ProvisionerViewController: UIViewController, ProvisioningDelegate {
+/*
+ Cruft from attempt to make view is separate class:
+ , BLEPViewDelegate
+ 
+ in viewDidLoad
+ // Set up the view with the view model and set up view controller as delegate
+ self.blepView().viewDelegate = self
+ 
+ // todo property
+ // Returns our view of type BLEPView so we can call abstract GUI methods on it
+ func blepView()-> BLEPView {
+ return self.view as! BLEPView
+ }
 
+ */
+
+class ProvisionerViewController: UIViewController, ProvisioningDelegate{
+  
+    var timer = NSTimer()
+
+    // Delegate for BLE actions
+    var bleDelegate: BLEDelegate!
+    
+    
+    // Should belong to separate View class
     @IBOutlet weak var backgroundImageView1: UIImageView!
     @IBOutlet weak var controlContainerView: UIView!
     // misnamed, not really a disconnect action
     @IBOutlet weak var disconnectButton: UIButton!
-  
-    var timer = NSTimer()
     
-    // UI-related
     let buttonLabelFontName = "HelveticaNeue-Thin"
     let buttonLabelFontSizeMessage:CGFloat = 56.0
     
     var backgroundImageViews: [UIImageView]!
     
     
-    var bleDelegate: BLEDelegate!
-        
-        
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         bleDelegate = BLEDelegate(delegate: self)
-      
-        // configure initial UI
-        backgroundImageViews = [backgroundImageView1]
-        view.bringSubviewToFront(backgroundImageViews[0])
-        backgroundImageViews[0].alpha = 1
-        view.bringSubviewToFront(controlContainerView)
         
-        disconnectButton.enabled = true
-        disconnectButton.setTitle( "Provision", forState:UIControlState.Normal)
-        disconnectButton.setTitle( "Searching...", forState:UIControlState.Disabled)
-        disconnectButton.titleLabel!.font = UIFont(name: buttonLabelFontName, size: buttonLabelFontSizeMessage)!
+        configureInitialUI();
     }
     
     
     override func viewWillAppear(animated: Bool) {
-        // If app has displayed sensor values, update them here
+        // If app has displayed sensor values, tell view to update them here
     }
   
+    
+    /*func showViewController(viewController: UIViewController, sender: NSObject) {
+        self.show(viewController, sender)
+    }
+    */
+    
   
     // MARK: timers
   
@@ -64,20 +79,7 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate {
         timer.invalidate()
     }
     
-    
-    
-    
-    // MARK: - Handling User Interaction
-    
-    @IBAction func handleDisconnectButtonTapped(sender: AnyObject) {
 
-        onActionStarted()
-    }
-    
-    
-    
-    
-        
     
     @objc func timerExpired() {
         print("Timer fired...")
@@ -104,10 +106,7 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate {
     }
 
     
-    func startTimedProvisioning()  {
-        startSessionTimer()    // timeout
-        bleDelegate.startScan();
-    }
+    
 
     
 }
