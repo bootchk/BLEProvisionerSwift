@@ -10,6 +10,7 @@
 		5F601F3020347F990035BD9B /* valueSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F601F2F20347F990035BD9B /* valueSerializer.swift */; };
 		5F65DCE220371BE900FA1271 /* BLEPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F65DCE120371BE900FA1271 /* BLEPModel.swift */; };
 		5F65DCE42037435600FA1271 /* timerWithProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F65DCE32037435600FA1271 /* timerWithProgress.swift */; };
+		5F65DCE620377BCB00FA1271 /* pickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F65DCE520377BCB00FA1271 /* pickerDelegate.swift */; };
 		5F8BC9FC2035BEB7006B71BF /* BLEDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8BC9FB2035BEB7006B71BF /* BLEDelegate.swift */; };
 		5F8BC9FE20360D74006B71BF /* BLEPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8BC9FD20360D74006B71BF /* BLEPView.swift */; };
 		5FAFE6F31FF6557F009326A6 /* BLEPSemantics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F21FF6557F009326A6 /* BLEPSemantics.swift */; };
@@ -29,6 +30,7 @@
 		5F601F2F20347F990035BD9B /* valueSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = valueSerializer.swift; sourceTree = "<group>"; };
 		5F65DCE120371BE900FA1271 /* BLEPModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEPModel.swift; sourceTree = "<group>"; };
 		5F65DCE32037435600FA1271 /* timerWithProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = timerWithProgress.swift; sourceTree = "<group>"; };
+		5F65DCE520377BCB00FA1271 /* pickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pickerDelegate.swift; sourceTree = "<group>"; };
 		5F8BC9FB2035BEB7006B71BF /* BLEDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDelegate.swift; sourceTree = "<group>"; };
 		5F8BC9FD20360D74006B71BF /* BLEPView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEPView.swift; sourceTree = "<group>"; };
 		5FAFE6F21FF6557F009326A6 /* BLEPSemantics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEPSemantics.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				5F8BC9FD20360D74006B71BF /* BLEPView.swift */,
 				5F65DCE120371BE900FA1271 /* BLEPModel.swift */,
 				5F65DCE32037435600FA1271 /* timerWithProgress.swift */,
+				5F65DCE520377BCB00FA1271 /* pickerDelegate.swift */,
 			);
 			path = BLEProvisionerSwift;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				5F65DCE220371BE900FA1271 /* BLEPModel.swift in Sources */,
 				5F8BC9FC2035BEB7006B71BF /* BLEDelegate.swift in Sources */,
 				5FAFE6F31FF6557F009326A6 /* BLEPSemantics.swift in Sources */,
+				5F65DCE620377BCB00FA1271 /* pickerDelegate.swift in Sources */,
 				5F8BC9FE20360D74006B71BF /* BLEPView.swift in Sources */,
 				C80679C01CB9B7ED009BCB93 /* AppDelegate.swift in Sources */,
 				5FF87C7720012A4000F22220 /* syncher.swift in Sources */,
