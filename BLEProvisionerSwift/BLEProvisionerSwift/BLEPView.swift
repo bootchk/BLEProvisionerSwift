@@ -72,18 +72,30 @@ extension ProvisionerViewController {
   }
   
   
+  func updateBLEPModel(index: UInt8, value: UInt8) {
+    /*
+     Remember current widget.
+     */
+    BLEPModel.currentProvisionable.index = index
+    BLEPModel.currentProvisionable.value = value
+    
+    /*
+     Remember what value user tried to provision, even if provisioning fails.
+     I.E. keep model corresponding with widget's value.
+     */
+    updateProvisionableProxyModel(index, value: value)
+  }
+  
   
   // MARK: User actions converted to abstract semantics
   
   @IBAction func handleDisconnectButtonTapped(sender: AnyObject) {
     
     /*
-    Remember which widget was used.
     Hardcode widget to provisionable relation.
     I.E. this button is for first provisionable.
     */
-    BLEPModel.currentProvisionable.index = 1  // TODO
-    updateProvisionableProxyModel(1, value: 2)  // TODO value from widget
+    updateBLEPModel(1, value: 5)  // TODO value from widget
     
     // Continue with: try to effect on remote device
     // viewDelegate?.onActionStarted()
