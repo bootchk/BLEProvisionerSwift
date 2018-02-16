@@ -61,6 +61,7 @@ extension ProvisionerViewController {
     disconnectButton.layer.borderColor = UIColor.grayColor().CGColor
   }
   
+  
   func configureInitialUI() {
     backgroundImageViews = [backgroundImageView1]
     self.view.bringSubviewToFront(backgroundImageViews[0])
@@ -76,19 +77,42 @@ extension ProvisionerViewController {
   
   @IBAction func handleDisconnectButtonTapped(sender: AnyObject) {
     
+    /*
+    Remember which widget was used.
+    Hardcode widget to provisionable relation.
+    I.E. this button is for first provisionable.
+    */
+    BLEPModel.currentProvisionable.index = 1  // TODO
+    updateProvisionableProxyModel(1, value: 2)  // TODO value from widget
+    
+    // Continue with: try to effect on remote device
     // viewDelegate?.onActionStarted()
     onActionStarted()
   }
   
+  
+  /*
+  User might have changed value of widget.
+  Local change is effective even if later fail to provision remote device.
+  */
+  func updateProvisionableProxyModel(index: UInt8, value: UInt8) {
+    BLEPModel.proxyValues[Int(index)] = value
+  }
   
   
   // MARK: Implement abstract operations on GUI
   
   
   func feedbackScanning(isScanning: Bool) {
-    // TODO show net activity?
+    /*
+    HIG design notes: 
+    1. show net activity is too obscure.
+    2. activityIndicator is for non-quantifiable duration
+    3. Duration is quantifiable (e.g. ten seconds max) so should use progress bar.
+    */
+    // TODO progress bar
     
-    //Button label by state is the feedback.
+    // For now: Button label by state is the feedback.
   }
 
   

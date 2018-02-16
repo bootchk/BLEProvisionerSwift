@@ -70,18 +70,16 @@ extension PeripheralProxy {
     // Write an offset from button push to now,
     syncher.markEnd()
     let eventOffset = syncher.getOffset()
-    
-    
-    print("writing value: \(eventOffset)")
+    print("offset: \(eventOffset)")
     
     /*
-    Write to the characteristic: attributes of this user action:  which widget, what value, and when
+    Write to the characteristic: attributes of this user action:  which widget, what value, when, and what range
     Serialized into byte array.
     */
-    // TODO real values for widget
-    writeValue(1, // widgetValue,
-      widgetIndex: 1,
+    writeValue(BLEPModel.currentProvisionable.value,
+      widgetIndex: BLEPModel.currentProvisionable.index,
       eventOffset: eventOffset,
+      tss: BLEPModel.provisioningRange.range,
       characteristic: characteristic)
     
     /*

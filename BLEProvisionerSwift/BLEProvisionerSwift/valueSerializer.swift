@@ -14,7 +14,7 @@ import Foundation
  to be written to a BLE characteristic.
  Peripheral will unserialize.
  
- We only use one characteristic.
+ We only use one BLE characteristic.
  All the GUI widgets write to the same characteristic.
  
  Values:
@@ -28,13 +28,14 @@ class ValueSerializer  {
   // class method
   class func serialize(widgetValue: UInt8,
                        widgetIndex: UInt8,
-                       eventOffset: UInt8) -> NSData {
+                       eventOffset: UInt8,
+                       tss:         UInt8) -> NSData {
     
     var bytes = [UInt8](count: 4, repeatedValue: 0)
     bytes[0] = widgetValue
     bytes[1] = widgetIndex
     bytes[2] = eventOffset
-    // bytest[3] unused
+    bytes[3] = tss
     let result = NSData(bytes: &bytes, length: 4)
     return result
   }

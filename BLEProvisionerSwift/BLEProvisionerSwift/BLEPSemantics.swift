@@ -25,6 +25,8 @@ extension ProvisionerViewController {
   
   /*
    Action is scan for provisionable and provision it.
+   
+   !!! Assert view already updated proxy model  with any value user chose
    */
   func onActionStarted() {
     feedbackScanning(true)
@@ -42,7 +44,8 @@ extension ProvisionerViewController {
   
   func onActionExpired()  {
     feedbackScanning(false)
-    self.doModalAlert("Failed to find device")
+    // tell user we failed provisioned device, in app's terminology and user's language
+    self.doModalAlert("<Failed to find device>")
     enableActions(true)
   }
   
@@ -54,8 +57,11 @@ extension ProvisionerViewController {
     cancelSessionTimer()
     
     feedbackScanning(false)
-    self.doModalAlert("Provisioned device")
+    // tell user we provisioned device, in app's terminology and user's language
+    self.doModalAlert("<Provisioned device>")
     enableActions(true)
+    
+    
   }
 
   

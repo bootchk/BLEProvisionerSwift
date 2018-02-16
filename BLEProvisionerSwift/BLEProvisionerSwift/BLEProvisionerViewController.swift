@@ -26,7 +26,8 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate{
 
     // Delegate for BLE actions
     var bleDelegate: BLEDelegate!
-    
+
+    // BLEPModel is pure class with static data members
     
     // Should belong to separate View class
     @IBOutlet weak var backgroundImageView1: UIImageView!

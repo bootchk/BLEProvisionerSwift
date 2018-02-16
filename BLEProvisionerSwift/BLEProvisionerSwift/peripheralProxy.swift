@@ -226,9 +226,10 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
   func writeValue(widgetValue: UInt8,
                   widgetIndex: UInt8,
                   eventOffset: UInt8,
+                  tss:         UInt8,
                   characteristic: CBCharacteristic) {
     
-    let bytesToWrite = ValueSerializer.serialize(widgetValue, widgetIndex: widgetIndex, eventOffset: eventOffset)
+    let bytesToWrite = ValueSerializer.serialize(widgetValue, widgetIndex: widgetIndex, eventOffset: eventOffset, tss: tss)
     
     // value to write
     //var valueToWrite:UInt8 = value
