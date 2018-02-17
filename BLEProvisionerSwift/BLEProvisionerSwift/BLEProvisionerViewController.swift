@@ -70,7 +70,7 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // If app has displayed sensor values, tell view to update them here
     }
   

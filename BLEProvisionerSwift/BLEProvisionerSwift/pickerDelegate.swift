@@ -14,7 +14,7 @@ import UIKit
  Create input method of Dropdown type for all UITextFieldss
  */
 extension UITextField {
-  func loadDropdownData(data: [String]) {
+  func loadDropdownData(_ data: [String]) {
     self.inputView = DropDown(pickerData: data, dropdownField: self)
   }
 }
@@ -33,7 +33,7 @@ class DropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
   var pickerTextField : UITextField!
   
   init(pickerData: [String], dropdownField: UITextField) {
-    super.init(frame: CGRectZero)
+    super.init(frame: CGRect.zero)
     
     self.pickerData = pickerData
     self.pickerTextField = dropdownField
@@ -45,13 +45,13 @@ class DropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     /*
     lkk Don't understand this
     */
-    dispatch_async(dispatch_get_main_queue(), {
+    DispatchQueue.main.async(execute: {
       if pickerData.count > 0 {
         self.pickerTextField.text = self.pickerData[0]
-        self.pickerTextField.enabled = true
+        self.pickerTextField.isEnabled = true
       } else {
         self.pickerTextField.text = nil
-        self.pickerTextField.enabled = false
+        self.pickerTextField.isEnabled = false
       }
     })
   }
@@ -65,17 +65,17 @@ class DropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
   // DataSource protocol
   
   // column count
-  func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+  func numberOfComponents(in pickerView: UIPickerView) -> Int {
     return 1
   }
   
   // row count
-  func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
     return pickerData.count
   }
   
   // return data for given row and component (column)
-  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
     return pickerData[row]
   }
   
@@ -87,7 +87,7 @@ class DropDown: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
    The crux: selecting from picker populates text field
    */
   // On user did select
-  func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     // This method is triggered whenever the user makes a change to the picker selection.
     // The parameter named row and component represents what was selected.
     print("Selected")

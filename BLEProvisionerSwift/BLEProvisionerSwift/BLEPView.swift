@@ -49,24 +49,24 @@ import UIKit
 extension ProvisionerViewController {
   
   func configureButton() {
-    disconnectButton.enabled = true
-    disconnectButton.setTitle( "Provision", forState:UIControlState.Normal)
-    disconnectButton.setTitle( "Searching...", forState:UIControlState.Disabled)
+    disconnectButton.isEnabled = true
+    disconnectButton.setTitle( "Provision", for:UIControlState())
+    disconnectButton.setTitle( "Searching...", for:UIControlState.disabled)
     // Look
     disconnectButton.titleLabel!.font = UIFont(name: buttonLabelFontName, size: buttonLabelFontSizeMessage)!
     
     // quick hack, since iOS doesn't seem to provide a default style for buttons
     disconnectButton.layer.borderWidth = 1.0
     disconnectButton.layer.cornerRadius = 5.0
-    disconnectButton.layer.borderColor = UIColor.grayColor().CGColor
+    disconnectButton.layer.borderColor = UIColor.gray.cgColor
   }
   
   
   func configureInitialUI() {
     backgroundImageViews = [backgroundImageView1]
-    self.view.bringSubviewToFront(backgroundImageViews[0])
+    self.view.bringSubview(toFront: backgroundImageViews[0])
     backgroundImageViews[0].alpha = 1
-    self.view.bringSubviewToFront(controlContainerView)
+    self.view.bringSubview(toFront: controlContainerView)
     
     configureButton()
     
@@ -74,7 +74,7 @@ extension ProvisionerViewController {
   }
   
   
-  func updateBLEPModel(index: UInt8, value: UInt8) {
+  func updateBLEPModel(_ index: UInt8, value: UInt8) {
     /*
      Remember current widget.
      */
@@ -91,7 +91,7 @@ extension ProvisionerViewController {
   
   // MARK: User actions converted to abstract semantics
   
-  @IBAction func handleDisconnectButtonTapped(sender: AnyObject) {
+  @IBAction func handleDisconnectButtonTapped(_ sender: AnyObject) {
     
     /*
     Hardcode widget to provisionable relation.
@@ -109,7 +109,7 @@ extension ProvisionerViewController {
   User might have changed value of widget.
   Local change is effective even if later fail to provision remote device.
   */
-  func updateProvisionableProxyModel(index: UInt8, value: UInt8) {
+  func updateProvisionableProxyModel(_ index: UInt8, value: UInt8) {
     BLEPModel.proxyValues[Int(index)] = value
   }
   
@@ -117,21 +117,21 @@ extension ProvisionerViewController {
   // MARK: Implement abstract operations on GUI
   
   
-  func feedbackScanning(isScanning: Bool) {
+  func feedbackScanning(_ isScanning: Bool) {
     /*
     HIG design notes: 
     1. show net activity is too obscure.
     2. activityIndicator is for non-quantifiable duration
     3. Duration is quantifiable (e.g. ten seconds max) so should use progress bar.
     */
-    progressView.hidden = !isScanning
+    progressView.isHidden = !isScanning
     
     // For now: Button label by state is the feedback.
   }
 
   
-  func enableActions(shouldEnable: Bool) {
-    disconnectButton.enabled = shouldEnable
+  func enableActions(_ shouldEnable: Bool) {
+    disconnectButton.isEnabled = shouldEnable
   }
   
   /*
@@ -139,9 +139,9 @@ extension ProvisionerViewController {
    But only viewController can display it.
    */
  
-  func getAlertResultController(message: String ) -> UIAlertController {
-    let alertController = UIAlertController(title: "Provisioner", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil)
+  func getAlertResultController(_ message: String ) -> UIAlertController {
+    let alertController = UIAlertController(title: "Provisioner", message: message, preferredStyle: UIAlertControllerStyle.alert)
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
     alertController.addAction(okAction)
     return alertController
   }

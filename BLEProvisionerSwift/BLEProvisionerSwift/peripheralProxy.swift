@@ -42,7 +42,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
   
   
   
-  func setPeripheral(central: CBCentralManager!,
+  func setPeripheral(_ central: CBCentralManager!,
                      peripheral: CBPeripheral!,
                      name: String?) {
     centralManager = central
@@ -62,17 +62,17 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
   
   func requestConnection() {
     print("request connection")
-    centralManager!.connectPeripheral(realSubjectDevice!, options: nil)
+    centralManager!.connect(realSubjectDevice!, options: nil)
   }
   
   
   func disconnect() {
       if let realSubjectDevice = self.realSubjectDevice {
         if let tc = self.temperatureCharacteristic {
-          realSubjectDevice.setNotifyValue(false, forCharacteristic: tc)
+          realSubjectDevice.setNotifyValue(false, for: tc)
         }
         if let hc = self.humidityCharacteristic {
-          realSubjectDevice.setNotifyValue(false, forCharacteristic: hc)
+          realSubjectDevice.setNotifyValue(false, for: hc)
         }
         
         /*
@@ -115,7 +115,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
    If unsuccessful, the error parameter returns the cause of the failure.
    */
   // When the specified services are discovered, the peripheral calls the peripheral:didDiscoverServices: method of its delegate object.
-  func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
+  func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
     if error != nil {
       print("ERROR DISCOVERING SERVICES: \(error?.localizedDescription)")
       return
@@ -142,7 +142,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
    If successful, the error parameter is nil.
    If unsuccessful, the error parameter returns the cause of the failure.
    */
-  func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
+  func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
     if error != nil {
       print("ERROR DISCOVERING CHARACTERISTICS: \(error?.localizedDescription)")
       return
@@ -215,15 +215,15 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
     realSubjectDevice!.discoverServices(nil)
   }
   
-  func discoverAllCharacteristics(forService: CBService!) {
-    realSubjectDevice!.discoverCharacteristics(nil, forService: forService)
+  func discoverAllCharacteristics(_ forService: CBService!) {
+    realSubjectDevice!.discoverCharacteristics(nil, for: forService)
   }
   
   
   
   
   
-  func writeValue(widgetValue: UInt8,
+  func writeValue(_ widgetValue: UInt8,
                   widgetIndex: UInt8,
                   eventOffset: UInt8,
                   tss:         UInt8,
@@ -237,7 +237,7 @@ class PeripheralProxy: NSObject, CBPeripheralDelegate {
 
     // length of characteristic must be 4 else write fails?
     // type must correspond to characteristic property else write fails?
-    realSubjectDevice!.writeValue(bytesToWrite, forCharacteristic: characteristic, type: .WithoutResponse)
+    realSubjectDevice!.writeValue(bytesToWrite, for: characteristic, type: .withoutResponse)
   }
   
 }

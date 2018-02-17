@@ -7,6 +7,30 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 /*
  Offset is duration from time of action (button pushed)
@@ -18,16 +42,16 @@ import Foundation
  */
 class Syncher {
   
-  var startScanTime:NSDate?
+  var startScanTime:Date?
   //var discoverTime:NSDate?
-  var offset:NSTimeInterval?
+  var offset:TimeInterval?
   
   func markStart() {
-    startScanTime = NSDate()
+    startScanTime = Date()
   }
   
   func markEnd() {
-    offset = NSDate().timeIntervalSinceDate(startScanTime!)
+    offset = Date().timeIntervalSince(startScanTime!)
   }
   
   func getOffset() -> UInt8 {

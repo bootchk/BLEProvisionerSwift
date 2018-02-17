@@ -58,13 +58,13 @@ extension PeripheralProxy {
   }
   
   
-  func onDiscoverDesiredService(service: CBService!) {
+  func onDiscoverDesiredService(_ service: CBService!) {
     // Immediately try discover characteristics
     discoverAllCharacteristics(service)
   }
   
   
-  func onDiscoverDesiredCharacteristic(characteristic:CBCharacteristic!) {
+  func onDiscoverDesiredCharacteristic(_ characteristic:CBCharacteristic!) {
     // Immediately write the characteristic
     
     // Write an offset from button push to now,

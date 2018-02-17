@@ -48,7 +48,7 @@ import Foundation
 class CurrentProvisionable {
   // Properties
   // For ease of serialization, UInt8
-  private var _index:UInt8 = 0
+  fileprivate var _index:UInt8 = 0
   var index:UInt8 {
     get {
       return _index
@@ -58,7 +58,7 @@ class CurrentProvisionable {
     }
   }
   
-  private var _value:UInt8 = 0
+  fileprivate var _value:UInt8 = 0
   var value:UInt8 {
     get {
       return _value
@@ -73,7 +73,7 @@ class CurrentProvisionable {
 // TODO enum?
 class ProvisioningRange {
   // For ease of serialization, UInt8
-  private var _range:UInt8 = 0
+  fileprivate var _range:UInt8 = 0
   var range:UInt8 {
     get {
       return _range
@@ -87,7 +87,7 @@ class ProvisioningRange {
 
 class Provisionable {
   // For ease of serialization, UInt8
-  private var _range:UInt8 = 0
+  fileprivate var _range:UInt8 = 0
   var range:UInt8 {
     get {
       return _range

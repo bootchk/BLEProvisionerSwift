@@ -26,17 +26,17 @@ import Foundation
 class ValueSerializer  {
   
   // class method
-  class func serialize(widgetValue: UInt8,
+  class func serialize(_ widgetValue: UInt8,
                        widgetIndex: UInt8,
                        eventOffset: UInt8,
-                       tss:         UInt8) -> NSData {
+                       tss:         UInt8) -> Data {
     
-    var bytes = [UInt8](count: 4, repeatedValue: 0)
+    var bytes = [UInt8](repeating: 0, count: 4)
     bytes[0] = widgetValue
     bytes[1] = widgetIndex
     bytes[2] = eventOffset
     bytes[3] = tss
-    let result = NSData(bytes: &bytes, length: 4)
+    let result = Data(buffer: UnsafeBufferPointer(start: &bytes, count: 4))
     return result
   }
   

@@ -35,10 +35,10 @@ extension ProvisionerViewController {
     enableActions(false)
   }
   
-  func doModalAlert(message: String) {
+  func doModalAlert(_ message: String) {
     // self not know how to style widget, but only self can present it
     let alert: UIViewController = getAlertResultController(message)
-    self.presentViewController(alert, animated: true, completion: nil)
+    self.present(alert, animated: true, completion: nil)
 
   }
   

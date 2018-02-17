@@ -21,21 +21,21 @@ protocol TimerDelegate: class {
  */
 class TimerWithProgress {
   var counter: UInt = 0
-  var timer = NSTimer()
+  var timer = Timer()
   var delegate: TimerDelegate?
   var sessionDuration: UInt = 0
   var progress: UIProgressView?
   
   func startTick() {
     // Start timer on one second tick
-    timer = NSTimer.scheduledTimerWithTimeInterval(1,
+    timer = Timer.scheduledTimer(timeInterval: 1,
                                                    target: self,
                                                    selector: #selector(timerTick),
                                                    userInfo: nil,
                                                    repeats: false)
   }
   
-  func start (duration: NSTimeInterval,
+  func start (_ duration: TimeInterval,
               aDelegate: TimerDelegate,
               aProgress: UIProgressView)
   {

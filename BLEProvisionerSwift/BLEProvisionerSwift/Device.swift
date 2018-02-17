@@ -9,7 +9,7 @@ import Foundation
 
 struct AppConstants {
   // duration of search/scan for provisionable
-  static let sessionDuration:NSTimeInterval = 10.0
+  static let sessionDuration:TimeInterval = 10.0
 }
 
 

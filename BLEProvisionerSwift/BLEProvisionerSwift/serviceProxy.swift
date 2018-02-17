@@ -18,12 +18,12 @@ import CoreBluetooth
  */
 class ServiceProxy {
   
-  func isServerOfThisService(realSubjectService: CBService ) -> Bool {
-    return realSubjectService.UUID == CBUUID(string: Device.CustomServiceUUID)
+  func isServerOfThisService(_ realSubjectService: CBService ) -> Bool {
+    return realSubjectService.uuid == CBUUID(string: Device.CustomServiceUUID)
   }
   
-  func isCharacteristicOfThisService(realSubjectCharacteristic: CBCharacteristic ) -> Bool {
-    return realSubjectCharacteristic.UUID == CBUUID(string: Device.CustomCharacteristicUUID)
+  func isCharacteristicOfThisService(_ realSubjectCharacteristic: CBCharacteristic ) -> Bool {
+    return realSubjectCharacteristic.uuid == CBUUID(string: Device.CustomCharacteristicUUID)
   }
 
   

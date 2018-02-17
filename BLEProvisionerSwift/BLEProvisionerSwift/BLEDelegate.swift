@@ -82,7 +82,7 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
     //let realSubjectDeviceAdvertisingUUID = CBUUID(string: Device.realSubjectDeviceAdvertisingUUID)
     //print("Scanning for realSubjectDevice adverstising with UUID: \(realSubjectDeviceAdvertisingUUID)")
     //centralManager.scanForPeripheralsWithServices([realSubjectDeviceAdvertisingUUID], options: nil)
-    centralManager.scanForPeripheralsWithServices([CBUUID(string: Device.CustomServiceUUID)], options: nil)
+    centralManager.scanForPeripherals(withServices: [CBUUID(string: Device.CustomServiceUUID)], options: nil)
     
     
     peripheralProxy.onStartScan()
@@ -95,7 +95,7 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
   
   
   func isConnected() ->Bool {
-    let list = centralManager.retrieveConnectedPeripheralsWithServices([CBUUID(string: Device.CustomServiceUUID), ])
+    let list = centralManager.retrieveConnectedPeripherals(withServices: [CBUUID(string: Device.CustomServiceUUID), ])
     print(list)
     // Assume no other app is connecting to the service, else will get a non-empty list
     return !list.isEmpty
@@ -108,7 +108,7 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
   // MARK: - CBCentralManagerDelegate methods
   
   // Invoked when the central manager’s state is updated.
-  func centralManagerDidUpdateState(central: CBCentralManager) {
+  func centralManagerDidUpdateState(_ central: CBCentralManager) {
     
     /*
      Since most of these states impede app,
@@ -119,17 +119,17 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
     var message = ""
     
     switch central.state {
-    case .PoweredOff:
+    case .poweredOff:
       message = "Bluetooth on this device is currently powered off."
-    case .Unsupported:
+    case .unsupported:
       message = "This device does not support Bluetooth Low Energy."
-    case .Unauthorized:
+    case .unauthorized:
       message = "This app is not authorized to use Bluetooth Low Energy."
-    case .Resetting:
+    case .resetting:
       message = "The BLE Manager is resetting; a state update is pending."
-    case .Unknown:
+    case .unknown:
       message = "The state of the BLE Manager is unknown."
-    case .PoweredOn:
+    case .poweredOn:
       //showAlert = false
       message = "Bluetooth LE is turned on and ready for communication."
       
@@ -161,27 +161,24 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
    RSSI - The current received signal strength indicator (RSSI) of the peripheral, in decibels.
    
    */
-  func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-    print("centralManager didDiscoverPeripheral - CBAdvertisementDataLocalNameKey is \"\(CBAdvertisementDataLocalNameKey)\"")
+  func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+      print("centralManager didDiscoverPeripheral - CBAdvertisementDataLocalNameKey is \"\(CBAdvertisementDataLocalNameKey)\"")
     
     // Retrieve the peripheral name from the advertisement data using the "kCBAdvDataLocalName" key
     if let peripheralName = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
       print("NEXT PERIPHERAL NAME: \(peripheralName)")
-      print("NEXT PERIPHERAL UUID: \(peripheral.identifier.UUIDString)")
+      print("NEXT PERIPHERAL UUID: \(peripheral.identifier.uuidString)")
       
-      // Can get advertisement without peripheral
-      if let thePeripheral: CBPeripheral = peripheral {
-        peripheralProxy.setPeripheral(central, peripheral: thePeripheral, name: peripheralName);
-        
-        if peripheralProxy.isProvisionable() {
-          peripheralProxy.onDiscoverProvisionable()
-        }
+      // In Swift 2.2, can get advertisement without peripheral
+      //if let thePeripheral: CBPeripheral = peripheral {}  else { print("advertised but no peripheral") }
+      peripheralProxy.setPeripheral(central, peripheral: peripheral, name: peripheralName);
+      
+      if peripheralProxy.isProvisionable() {
+        peripheralProxy.onDiscoverProvisionable()
       }
     }
-    else {
-      print("advertised but no peripheral")
-    }
   }
+  
   
   
   /*
@@ -190,7 +187,7 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
    This method is invoked when a call to connectPeripheral:options: is successful.
    You typically implement this method to set the peripheral’s delegate and to discover its services.
    */
-  func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+  func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     print("**** SUCCESSFULLY CONNECTED!!!")
     
     // User is not interested
@@ -207,7 +204,7 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
    Because connection attempts do not time out, a failed connection usually indicates a transient issue,
    in which case you may attempt to connect to the peripheral again.
    */
-  func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+  func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
     print("**** CONNECTION TO desired device FAILED!!!")
   }
   
@@ -221,7 +218,7 @@ class BLEDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate  {
    
    When disconnected, all of the peripheral's services, characteristics, and characteristic descriptors are invalidated.
    */
-  func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+  func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
     print("**** DISCONNECTED FROM desired device!")
     if error != nil {
       
