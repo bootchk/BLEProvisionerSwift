@@ -12,6 +12,7 @@
 		5F65DCE42037435600FA1271 /* timerWithProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F65DCE32037435600FA1271 /* timerWithProgress.swift */; };
 		5F65DCE620377BCB00FA1271 /* dropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F65DCE520377BCB00FA1271 /* dropDown.swift */; };
 		5F6FBE8A2038D56200C6053C /* dropDownDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6FBE892038D56200C6053C /* dropDownDataSource.swift */; };
+		5F6FBE8C2039A3CE00C6053C /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 5F6FBE8B2039A3CE00C6053C /* readme.md */; };
 		5F8BC9FC2035BEB7006B71BF /* BLEDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8BC9FB2035BEB7006B71BF /* BLEDelegate.swift */; };
 		5F8BC9FE20360D74006B71BF /* BLEPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8BC9FD20360D74006B71BF /* BLEPView.swift */; };
 		5FAFE6F31FF6557F009326A6 /* BLEPSemantics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFE6F21FF6557F009326A6 /* BLEPSemantics.swift */; };
@@ -33,6 +34,7 @@
 		5F65DCE32037435600FA1271 /* timerWithProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = timerWithProgress.swift; sourceTree = "<group>"; };
 		5F65DCE520377BCB00FA1271 /* dropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dropDown.swift; sourceTree = "<group>"; };
 		5F6FBE892038D56200C6053C /* dropDownDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dropDownDataSource.swift; sourceTree = "<group>"; };
+		5F6FBE8B2039A3CE00C6053C /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = readme.md; path = ../../readme.md; sourceTree = "<group>"; };
 		5F8BC9FB2035BEB7006B71BF /* BLEDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEDelegate.swift; sourceTree = "<group>"; };
 		5F8BC9FD20360D74006B71BF /* BLEPView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEPView.swift; sourceTree = "<group>"; };
 		5FAFE6F21FF6557F009326A6 /* BLEPSemantics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEPSemantics.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		C80679BE1CB9B7ED009BCB93 /* BLEProvisionerSwift */ = {
 			isa = PBXGroup;
 			children = (
+				5F6FBE8B2039A3CE00C6053C /* readme.md */,
 				C80679D51CB9C03A009BCB93 /* Device.swift */,
 				C80679BF1CB9B7ED009BCB93 /* AppDelegate.swift */,
 				C80679D31CB9BF83009BCB93 /* BLEProvisionerViewController.swift */,
@@ -199,6 +202,7 @@
 				C80679D61CB9C03A009BCB93 /* Device.swift in Sources */,
 				5F65DCE220371BE900FA1271 /* BLEPModel.swift in Sources */,
 				5F8BC9FC2035BEB7006B71BF /* BLEDelegate.swift in Sources */,
+				5F6FBE8C2039A3CE00C6053C /* readme.md in Sources */,
 				5FAFE6F31FF6557F009326A6 /* BLEPSemantics.swift in Sources */,
 				5F65DCE620377BCB00FA1271 /* dropDown.swift in Sources */,
 				5F8BC9FE20360D74006B71BF /* BLEPView.swift in Sources */,

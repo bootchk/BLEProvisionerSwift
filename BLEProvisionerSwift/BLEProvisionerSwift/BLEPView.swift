@@ -101,10 +101,7 @@ extension ProvisionerViewController {
   
   
   func configureInitialUI() {
-    // lkk Why this?
-    backgroundImageViews = [backgroundImageView1]
-    //self.view.bringSubview(toFront: backgroundImageViews[0])
-    // backgroundImageViews[0].alpha = 1
+    // Ancestor project had a background image
     
     self.view.bringSubview(toFront: controlContainerView)
     

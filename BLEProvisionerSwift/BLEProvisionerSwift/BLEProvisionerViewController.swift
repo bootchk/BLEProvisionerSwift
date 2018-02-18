@@ -35,7 +35,8 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
     
     
     // IB stuff should belong to separate View class, if Swift allowed extensions to have data members
-    @IBOutlet weak var backgroundImageView1: UIImageView!
+    
+    // control container view seems required for an iOS app
     @IBOutlet weak var controlContainerView: UIView!
     
     // Widgets for ProvisionableControls

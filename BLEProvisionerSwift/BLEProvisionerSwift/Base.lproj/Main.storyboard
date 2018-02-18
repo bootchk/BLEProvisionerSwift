@@ -22,9 +22,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="temp-10" translatesAutoresizingMaskIntoConstraints="NO" id="B3K-2v-qVg" userLabel="backgroundImageView1">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Nz-AX-Lln" userLabel="controlContainerView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
@@ -70,18 +67,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="B3K-2v-qVg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9Go-5A-A63"/>
                             <constraint firstAttribute="trailing" secondItem="8Nz-AX-Lln" secondAttribute="trailing" id="BU3-qI-34p"/>
-                            <constraint firstItem="B3K-2v-qVg" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="HmL-2X-bzo"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="B3K-2v-qVg" secondAttribute="bottom" id="V2B-Rw-1Uj"/>
-                            <constraint firstAttribute="trailing" secondItem="B3K-2v-qVg" secondAttribute="trailing" id="edM-aO-aPB"/>
                             <constraint firstItem="8Nz-AX-Lln" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gSb-4u-Kx2"/>
                             <constraint firstItem="8Nz-AX-Lln" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wRh-o3-Ryh"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8Nz-AX-Lln" secondAttribute="bottom" id="xtW-3N-ze8"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="backgroundImageView1" destination="B3K-2v-qVg" id="rmh-8U-iZU"/>
                         <outlet property="controlContainerView" destination="8Nz-AX-Lln" id="Ulr-6J-S0j"/>
                         <outlet property="disconnectButton" destination="5aL-bk-0lH" id="yc1-zZ-QdC"/>
                         <outlet property="pickerTextField" destination="x2p-QX-2eQ" id="Fi7-29-rBN"/>
@@ -93,7 +85,4 @@
             <point key="canvasLocation" x="695" y="448"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="temp-10" width="375" height="667"/>
-    </resources>
 </document>
