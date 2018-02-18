@@ -20,7 +20,7 @@ typealias SelectionHandler = (Int) -> Void
  */
 extension UITextField {
   
-  func loadDropdownData(aDataSource: DropDownDataSource,
+  func setDropdownInputMethod(aDataSource: DropDownDataSource,
                         onSelect selectionHandler : @escaping SelectionHandler
                        )
   {
@@ -35,10 +35,11 @@ extension UITextField {
 /*
  A picker (dropdown/dropup spinner) specialized as an input method to a text field
  
- Initialized with the owning text view and data for the picker.
+ Initialized with the owning text view and datasource.
  
  The owning text view typically created with IB.
- The owning text view creates (dynamically) DropDown when the user chooses the text view's input method.
+ Parent of text view initializes it with DropDown by calling method setDropdownInputMethod
+ The owning text view DropDown when the user chooses the text view's input method.
  The default input method is a keyboard, the same machinery will show any (custom, like this) input method.
  */
 
@@ -70,24 +71,25 @@ class DropDown: UIPickerView, UIPickerViewDelegate {	// , UIPickerViewDataSource
     
     // Class is NOT its own delegate for DataSource protocol
     self.dataSource = aDataSource
+    
     /*
     Schedule for later execution: closure that enables self's text field.
     We can't do this now, because initialization of self is not done yet?
     */
     DispatchQueue.main.async(
       execute: {
-      if self.dropDownDataSource.pickerView(self, numberOfRowsInComponent: 1) > 0 {
-        // self.numberOfRows(inComponent: 1) > 0 {   // dropDownDataSource.count > 0 {
-        // Default to first row of data
-        self.pickerTextField.text = self.dropDownDataSource.getData(0) // WAS: self.data[0]
-        self.pickerTextField.isEnabled = true
-      } else {
-        self.pickerTextField.text = nil
-        self.pickerTextField.isEnabled = false
-      }
-      self.reloadAllComponents()
-    })  // end closure
-    
+        // if data is not empty?  Why would it ever be empty?
+        if self.dropDownDataSource.pickerView(self, numberOfRowsInComponent: 1) > 0 {
+          // self.numberOfRows(inComponent: 1) > 0 {   // dropDownDataSource.count > 0 {
+          // Default to first row of data
+          self.pickerTextField.text = self.dropDownDataSource.getData(0) // WAS: self.data[0]
+          self.pickerTextField.isEnabled = true
+        } else {
+          self.pickerTextField.text = nil
+          self.pickerTextField.isEnabled = false
+        }
+      } // end closure
+    )
   }
   
   

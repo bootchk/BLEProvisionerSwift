@@ -42,23 +42,22 @@ import UIKit
  override func awakeFromNib() {
  super.awakeFromNib()
  self.configureInitialUI()
+ 
+ // viewDelegate?.onActionStarted()
  }
  */
 
 
 extension ProvisionerViewController {
   
-  func configureButton() {
+  func styleButton() {
+    // Look i.e. style
+    
     let buttonLabelFontName = "HelveticaNeue-Thin"
     let buttonLabelFontSizeMessage:CGFloat = 56.0
-
-    
-    disconnectButton.isEnabled = true
-    disconnectButton.setTitle( "<Provision>", for:UIControlState())
-    //disconnectButton.setTitle( "<Searching...>", for:UIControlState.disabled)
-    // Look
     disconnectButton.titleLabel!.font = UIFont(name: buttonLabelFontName, size: buttonLabelFontSizeMessage)!
     
+    // Frame
     // quick hack, since iOS doesn't seem to provide a default style for buttons
     disconnectButton.layer.borderWidth = 1.0
     disconnectButton.layer.cornerRadius = 5.0
@@ -66,12 +65,32 @@ extension ProvisionerViewController {
   }
   
   
-  func configureComboBox()  {
-    let salutations = ["Mr.", "Ms.", "Mrs."]
-    let rangeDataSource = DropDownDataSource(someData: salutations)
+  func configureButton() {
+    styleButton()
     
-    pickerTextField.loadDropdownData(aDataSource: rangeDataSource,
-                                     onSelect: handleComboBoxChosen
+    // enabling is by the VC via enableActions
+    disconnectButton.setTitle( "<Provision>", for:UIControlState())
+    
+    //disconnectButton.setTitle( "<Searching...>", for:UIControlState.disabled)
+  }
+  
+  
+  // TODO: two types of combo box: provisioning, and control provisioning process
+  
+  func configureComboBox()  {
+    /*
+    Data becomes coded by index when sent to Provisionee.
+    We don't need an enum because Provisioner doesn't really understand
+    what the data means to the Provisionee.
+     
+    Even for the Range ComboBox
+    */
+    let ranges = ["Near", "Mid", "Far"]
+    
+    let rangeDataSource = DropDownDataSource(someData: ranges)
+    
+    pickerTextField.setDropdownInputMethod(aDataSource: rangeDataSource,
+                                           onSelect: handleComboBoxChosen
     )
     
     // Show down arrow
@@ -94,9 +113,6 @@ extension ProvisionerViewController {
     // Configure Provisioning widgets
     configureButton()
     configureComboBox()
-    
-    // Initial state: no user action in progress
-    feedbackScanning(false)
   }
   
   
@@ -124,10 +140,10 @@ extension ProvisionerViewController {
     Hardcode widget to provisionable relation.
     I.E. this button is for first provisionable.
     */
-    updateBLEPModel(1, value: 99)  // value is dummy, action is a signal
+    // TODO 0 means: first ProvisionableControl
+    updateBLEPModel(0, value: 99)  // value is dummy, action is a signal
     
     // Continue with: try to effect on remote device
-    // viewDelegate?.onActionStarted()
     onActionStarted()
   }
   
@@ -138,6 +154,7 @@ extension ProvisionerViewController {
     Provisioned value is row index.
     I.E. a code, not the String that the user chose.
     */
+    // TODO 1 means second ProvisionableControl
     updateBLEPModel(1, value: UInt8(row))
     onActionStarted()
   }
@@ -152,7 +169,7 @@ extension ProvisionerViewController {
   }
   
   
-  // MARK: Implement abstract operations on GUI
+  // MARK: Implement abstract operations on view
   
   
   func feedbackScanning(_ isScanning: Bool) {
@@ -161,10 +178,10 @@ extension ProvisionerViewController {
     1. show net activity widget is too obscure.
     2. activityIndicator widget is for non-quantifiable duration
     3. Duration is quantifiable (e.g. ten seconds max) so should use progress bar widget
+     
+    Do NOT change button label by state to indicate progress.
     */
     progressView.isHidden = !isScanning
-    
-    // For now: Button label by state is also feedback.
   }
 
   
@@ -175,6 +192,7 @@ extension ProvisionerViewController {
      We could leave the Range control enabled?
     */
     disconnectButton.isEnabled = shouldEnable
+    // TODO textField doesn't have any feedback to show disabled
     pickerTextField.isEnabled = shouldEnable
     // TODO all the controls
   }
@@ -198,5 +216,6 @@ extension ProvisionerViewController {
     progressView.setProgress(0.0, animated: false)
   }
   
+  // TODO TimerWithProgress knows progressView but shouldn't?
   
 }

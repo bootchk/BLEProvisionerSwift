@@ -29,7 +29,12 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
 
     // BLEPModel is pure class with static data members
     
-    // Should belong to separate View class
+    let timerWithProgress: TimerWithProgress = TimerWithProgress()
+    
+    
+    
+    
+    // IB stuff should belong to separate View class, if Swift allowed extensions to have data members
     @IBOutlet weak var backgroundImageView1: UIImageView!
     @IBOutlet weak var controlContainerView: UIView!
     
@@ -44,12 +49,10 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
     
     // Miscellaneous Widgets
     @IBOutlet weak var progressView: UIProgressView!
-    
-    
         
     var backgroundImageViews: [UIImageView]!
     
-    let timerWithProgress: TimerWithProgress = TimerWithProgress()
+    
     
     
     
@@ -63,11 +66,14 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
         bleDelegate = BLEDelegate(delegate: self)
         
         configureInitialUI();
+        
+        // Initial state: no user action in progress
+        feedbackScanning(false)
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
-        // If app has displayed sensor values, tell view to update them here
+        // If there was any communication BACK from the Provisionee, (BLE notifications?) tell view to update them here
     }
   
     
@@ -117,9 +123,5 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
         // assert timer not running
         assert(!bleDelegate.isScanning())
     }
-
-    
-    
-
     
 }
