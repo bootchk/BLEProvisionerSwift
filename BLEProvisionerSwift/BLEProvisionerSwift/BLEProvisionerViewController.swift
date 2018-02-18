@@ -37,22 +37,23 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
     // IB stuff should belong to separate View class, if Swift allowed extensions to have data members
     
     // control container view seems required for an iOS app
-    @IBOutlet weak var controlContainerView: UIView!
+    @IBOutlet weak var controlContainerView: UIStackView!
     
     // Widgets for ProvisionableControls
-    // misnamed, not really a disconnect action
-    @IBOutlet weak var disconnectButton: UIButton!
-    @IBOutlet weak var pickerTextField : UITextField!
+    
+    @IBOutlet weak var blinkNowButton: UIButton!
+    @IBOutlet weak var scatterButton: UIButton!
+    
+    @IBOutlet weak var blinkCycleTextField : UITextField!
+    @IBOutlet weak var clusterSizeTextField : UITextField!
 
     
-    // Widget for RangeControl
-    @IBOutlet weak var pickerView: UIPickerView!
+    // Widget for process control: range of provisioning commands
+    @IBOutlet weak var rangeTextField : UITextField!
     
     // Miscellaneous Widgets
     @IBOutlet weak var progressView: UIProgressView!
-        
-    var backgroundImageViews: [UIImageView]!
-    
+
     
     
     

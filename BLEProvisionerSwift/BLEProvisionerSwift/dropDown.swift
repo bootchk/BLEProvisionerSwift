@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-typealias SelectionHandler = (Int) -> Void
+typealias SelectionHandler = (DropDownDataSource, Int) -> Void
 
 
 /*
@@ -60,6 +60,7 @@ class DropDown: UIPickerView, UIPickerViewDelegate {	// , UIPickerViewDataSource
        onSelect selectionHandler : @escaping SelectionHandler
        )
   {
+    //super.init()  
     super.init(frame: CGRect.zero)
     
     self.dropDownDataSource = aDataSource     // !!! NOT dataSource, which is a member of superclass UIPickerView
@@ -122,7 +123,7 @@ class DropDown: UIPickerView, UIPickerViewDelegate {	// , UIPickerViewDataSource
     
     // signal parent that user chose row of widget
     // parent can access DataSource by row to get String
-    selectionHandler?(row)
+    selectionHandler?(self.dataSource as! DropDownDataSource, row)
   }
 
 }

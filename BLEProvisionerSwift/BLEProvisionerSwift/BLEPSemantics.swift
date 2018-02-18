@@ -28,7 +28,7 @@ extension ProvisionerViewController {
    
    !!! Assert view already updated proxy model  with any value user chose
    */
-  func onActionStarted() {
+  func tryProvisionRemoteDevice() {
     feedbackScanning(true)
     startTimedProvisioning()
     // Further actions disabled while this one is asynchronously executing

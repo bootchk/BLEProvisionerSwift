@@ -15,8 +15,13 @@ class DropDownDataSource: NSObject, UIPickerViewDataSource {
   
   // Members passed in at init time
   var data : [String]!
+  var provisionableIndex : Int!
+
   
-  init(someData: [String]) {
+  init(aProvisionableIndex: Int,
+       someData: [String])
+  {
+    provisionableIndex = aProvisionableIndex
     data = someData
   }
   
@@ -24,7 +29,7 @@ class DropDownDataSource: NSObject, UIPickerViewDataSource {
     return self.data![row]
   }
   
-
+  
   // DataSource protocol
   
   // column count
