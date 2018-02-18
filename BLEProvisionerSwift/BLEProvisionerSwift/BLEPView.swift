@@ -49,9 +49,13 @@ import UIKit
 extension ProvisionerViewController {
   
   func configureButton() {
+    let buttonLabelFontName = "HelveticaNeue-Thin"
+    let buttonLabelFontSizeMessage:CGFloat = 56.0
+
+    
     disconnectButton.isEnabled = true
-    disconnectButton.setTitle( "Provision", for:UIControlState())
-    disconnectButton.setTitle( "Searching...", for:UIControlState.disabled)
+    disconnectButton.setTitle( "<Provision>", for:UIControlState())
+    //disconnectButton.setTitle( "<Searching...>", for:UIControlState.disabled)
     // Look
     disconnectButton.titleLabel!.font = UIFont(name: buttonLabelFontName, size: buttonLabelFontSizeMessage)!
     
@@ -62,14 +66,36 @@ extension ProvisionerViewController {
   }
   
   
+  func configureComboBox()  {
+    let salutations = ["Mr.", "Ms.", "Mrs."]
+    let rangeDataSource = DropDownDataSource(someData: salutations)
+    
+    pickerTextField.loadDropdownData(aDataSource: rangeDataSource,
+                                     onSelect: handleComboBoxChosen
+    )
+    
+    // Show down arrow
+    pickerTextField.rightViewMode = .always
+    // TODO either put image in assets, or do this all in IB
+    pickerTextField.rightView = UIImageView(image: UIImage(named: "downArrow.png")) //"selectdrop"))
+  }
+  
+  
   func configureInitialUI() {
+    // lkk Why this?
     backgroundImageViews = [backgroundImageView1]
-    self.view.bringSubview(toFront: backgroundImageViews[0])
-    backgroundImageViews[0].alpha = 1
+    //self.view.bringSubview(toFront: backgroundImageViews[0])
+    // backgroundImageViews[0].alpha = 1
+    
     self.view.bringSubview(toFront: controlContainerView)
     
-    configureButton()
+    // TODO configure Provisioning process control widget (Range)
     
+    // Configure Provisioning widgets
+    configureButton()
+    configureComboBox()
+    
+    // Initial state: no user action in progress
     feedbackScanning(false)
   }
   
@@ -83,10 +109,11 @@ extension ProvisionerViewController {
     
     /*
      Remember what value user tried to provision, even if provisioning fails.
-     I.E. keep model corresponding with widget's value.
+     I.E. keep model corresponding with view's (widget's) value.
      */
     updateProvisionableProxyModel(index, value: value)
   }
+  
   
   
   // MARK: User actions converted to abstract semantics
@@ -97,10 +124,21 @@ extension ProvisionerViewController {
     Hardcode widget to provisionable relation.
     I.E. this button is for first provisionable.
     */
-    updateBLEPModel(1, value: 5)  // TODO value from widget
+    updateBLEPModel(1, value: 99)  // value is dummy, action is a signal
     
     // Continue with: try to effect on remote device
     // viewDelegate?.onActionStarted()
+    onActionStarted()
+  }
+  
+  
+  func handleComboBoxChosen(row: Int) {
+    // assert row < max UInt8
+    /*
+    Provisioned value is row index.
+    I.E. a code, not the String that the user chose.
+    */
+    updateBLEPModel(1, value: UInt8(row))
     onActionStarted()
   }
   
@@ -120,18 +158,25 @@ extension ProvisionerViewController {
   func feedbackScanning(_ isScanning: Bool) {
     /*
     HIG design notes: 
-    1. show net activity is too obscure.
-    2. activityIndicator is for non-quantifiable duration
-    3. Duration is quantifiable (e.g. ten seconds max) so should use progress bar.
+    1. show net activity widget is too obscure.
+    2. activityIndicator widget is for non-quantifiable duration
+    3. Duration is quantifiable (e.g. ten seconds max) so should use progress bar widget
     */
     progressView.isHidden = !isScanning
     
-    // For now: Button label by state is the feedback.
+    // For now: Button label by state is also feedback.
   }
 
   
   func enableActions(_ shouldEnable: Bool) {
+    /*
+     Disable all the controls while async action is executing.
+     So user cannot start two concurrent actions.
+     We could leave the Range control enabled?
+    */
     disconnectButton.isEnabled = shouldEnable
+    pickerTextField.isEnabled = shouldEnable
+    // TODO all the controls
   }
   
   /*

@@ -36,6 +36,8 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
     // Widgets for ProvisionableControls
     // misnamed, not really a disconnect action
     @IBOutlet weak var disconnectButton: UIButton!
+    @IBOutlet weak var pickerTextField : UITextField!
+
     
     // Widget for RangeControl
     @IBOutlet weak var pickerView: UIPickerView!
@@ -43,16 +45,14 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
     // Miscellaneous Widgets
     @IBOutlet weak var progressView: UIProgressView!
     
-    let buttonLabelFontName = "HelveticaNeue-Thin"
-    let buttonLabelFontSizeMessage:CGFloat = 56.0
     
+        
     var backgroundImageViews: [UIImageView]!
     
     let timerWithProgress: TimerWithProgress = TimerWithProgress()
     
-    @IBOutlet weak var pickerTextField : UITextField!
     
-    let salutations = ["", "Mr.", "Ms.", "Mrs."]
+    
     
         
         
@@ -63,10 +63,6 @@ class ProvisionerViewController: UIViewController, ProvisioningDelegate, TimerDe
         bleDelegate = BLEDelegate(delegate: self)
         
         configureInitialUI();
-        
-        pickerTextField.loadDropdownData(salutations)
-        //pickerView.dataSource = pickerDelegate
-        //pickerView.delegate = pickerDelegate
     }
     
     

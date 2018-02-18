@@ -104,13 +104,33 @@ class Provisionable {
  */
 class BLEPModel {
   
+  /*
+   The current provisioning.
+   Non null when user takes an action.
+   */
   static var currentProvisionable: CurrentProvisionable = CurrentProvisionable()
+  
+  /*
+  For a widget that is NOT a provisionable, but a control of the provisioning process.
+  
+  Also does not persist between sessions.
+  */
   static var provisioningRange: ProvisioningRange = ProvisioningRange()
   
+  
   // TODO default values from the application
-  // These will be displayed.  
-  // User's values not persist between sessions with app.
-  // Some are moot but must be one-to-one with proxy widgets
+  /*
+   Values displayed in the proxies (the widgets).
+   These DO NOT indicate values from the peripherals (Provisioning is one-way.)
+ 
+   These are non-null when the app starts, before any user actions.
+   
+   These follow any user-actions. If current provisioning is not-null, it equals the provisioningProxy for the same index.
+   
+   Any values that followed user-actions DO NOT persist between sessions with app.
+   
+   Some are moot (for provisionableControls that are just signals) but must be one-to-one with proxy widgets
+ */
   static var proxyValues: [UInt8] = [0, 1, 2, 3]
 }
 
